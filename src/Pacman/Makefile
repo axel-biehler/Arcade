@@ -5,11 +5,11 @@
 ## Makefile
 ##
 
-SRC		=	libSFML.cpp		\
+SRC		=
 
 OBJ		=	$(SRC:.cpp=.o)
 
-NAME	=	arcade_sfml.so
+NAME	=	arcade_pacman.so
 
 all:	$(NAME)
 

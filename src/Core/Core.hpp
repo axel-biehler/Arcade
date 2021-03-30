@@ -10,10 +10,10 @@
 
 #include <string>
 #include <vector>
-#include "../../../includes/IGraphic.hpp"
-#include "../../../includes/IGame.hpp"
-#include "../../../includes/PersonnalType.hpp"
-#include "../../LibLoader/LibLoader.hpp"
+#include "IGraphic.hpp"
+#include "IGame.hpp"
+#include "PersonnalType.hpp"
+#include "../LibLoader/LibLoader.hpp"
 
 namespace Arcade {
     class Core {

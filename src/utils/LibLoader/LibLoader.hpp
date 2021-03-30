@@ -10,9 +10,9 @@
 
 #include <iostream>
 #include <dlfcn.h>
-#include "../../includes/IGame.hpp"
-#include "../../includes/IGraphic.hpp"
-#include "../../includes/PersonnalType.hpp"
+#include "IGame.hpp"
+#include "IGraphic.hpp"
+#include "PersonnalType.hpp"
 #include <vector>
 #include <math.h>
 

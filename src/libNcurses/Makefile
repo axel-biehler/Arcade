@@ -5,10 +5,7 @@
 ## Makefile
 ##
 
-SRC		=	src/main.cpp							\
-			src/LibLoader/LibLoader.cpp				\
-			src/menu.cpp							\
-			src/utils/Core/Core.cpp					\
+SRC		=
 
 OBJ		=	$(SRC:.cpp=.o)
 
@@ -16,13 +13,19 @@ NAME	=	arcade_ncurses.so
 
 all:	$(NAME)
 
+CFLAGS	=		-c -Wall -Werror -Wextra -fpic
+
+LFLAGS  =		-shared
+
 $(NAME):	$(OBJ)
-	g++ -o $(NAME) -Wall -Wextra -Werror $(OBJ) -ldl -lstdc++fs
+	g++ $(CFLAGS) $(SRC)
+	g++ -o $(NAME) $(LFLAGS) $(OBJ)
+	mv $(NAME) ../../lib
 
 clean:
 	rm -f $(OBJ)
 
 fclean:	clean
-	rm -f $(NAME)
+	rm -f ../../lib/$(NAME)
 
 re:	fclean all

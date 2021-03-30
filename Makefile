@@ -5,24 +5,34 @@
 ## Makefile
 ##
 
-SRC		=	src/main.cpp							\
-			src/LibLoader/LibLoader.cpp				\
-			src/menu.cpp							\
-			src/utils/Core/Core.cpp					\
+graphicals:
+	cd src/libNcurses && make
+	cd src/libSDL && make
+	cd src/libSFML && make
 
-OBJ		=	$(SRC:.cpp=.o)
+games:
+	cd src/Pacman && make
+	cd src/Snake && make
 
-NAME	=	arcade
+core:
+	cd src/Core && make
 
-all:	$(NAME)
-
-$(NAME):	$(OBJ)
-	g++ -o $(NAME) -Wall -Wextra -Werror $(OBJ) -ldl -lstdc++fs
+all: games graphicals core
 
 clean:
-	rm -f $(OBJ)
+	cd src/libNcurses && make clean
+	cd src/libSDL && make clean
+	cd src/libSFML && make clean
+	cd src/Pacman && make clean
+	cd src/Snake && make clean
+	cd src/Core && make clean
 
-fclean:	clean
-	rm -f $(NAME)
+fclean:
+	cd src/libNcurses && make fclean
+	cd src/libSDL && make fclean
+	cd src/libSFML && make fclean
+	cd src/Pacman && make fclean
+	cd src/Snake && make fclean
+	cd src/Core && make fclean
 
 re:	fclean all
