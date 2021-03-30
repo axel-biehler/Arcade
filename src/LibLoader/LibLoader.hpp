@@ -13,21 +13,32 @@
 #include "../../includes/IGame.hpp"
 #include "../../includes/IGraphic.hpp"
 #include "../../includes/PersonnalType.hpp"
+#include <vector>
+#include <math.h>
 
 namespace Arcade {
     class LibLoader {
     public:
         LibLoader();
         virtual ~LibLoader();
-        void loadSharedLib(std::string const &fp);
-        IGame *getLibGame() const;
-        IGraphic *getLibGraphic() const;
-        LibType getType() const;
 
-    private:
-        LibType _type;
-        IGame *_libGame;
-        IGraphic *_libGraphic;
+        template<typename T>
+        T *loadSharedLib(std::string const &fp, T *)
+        {
+            void *sharedLib = dlopen(fp.c_str(), RTLD_LAZY);
+            T *(*getLib)();
+
+            if (sharedLib) {
+                getLib = reinterpret_cast<T * (*)()>(dlsym(sharedLib, "getLib"));
+                return getLib();
+            }
+            else {
+                std::cout << "dlopen failed: "<< dlerror() << std::endl;
+                return nullptr;
+            }
+        }
+        std::vector<std::pair<std::string, std::string>> getLibAvailable(Arcade::LibType);
+        std::string getNameLib(std::string &fp);
     };
 }
 

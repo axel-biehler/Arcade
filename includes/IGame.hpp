@@ -1,8 +1,8 @@
 /*
-** EPITECH PROJECT, 2020
-** Arcade
+** EPITECH PROJECT, 2021
+** B_OOP_400_STG_4_1_arcade_maxime_frechard
 ** File description:
-** Game libs header
+** Created by arthur,
 */
 
 #ifndef B_OOP_400_STG_4_1_ARCADE_NICOLAS_SCHNEIDER_IGAME_H

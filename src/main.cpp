@@ -7,7 +7,7 @@
 
 #include <iostream>
 #include "LibLoader/LibLoader.hpp"
-#include "../Core/Core.hpp"
+#include "utils/Core/Core.hpp"
 
 void render_menu(Arcade::IGraphic *renderer);
 
@@ -23,11 +23,5 @@ int main(int ac, char **av)
         exit(84);
     }
     Arcade::Core core;
-    Arcade::LibLoader startLib;
-
-    startLib.loadSharedLib(av[1]);
-    if (startLib.getLibGraphic() == nullptr)
-        exit(84);
-    core.loadLibs("./lib");
-    render_menu(startLib.getLibGraphic());
+    Arcade::LibLoader loader;
 }

@@ -20,17 +20,13 @@ namespace Arcade {
     public:
         Core();
         ~Core();
-        void loadLibs(std::string const &path);
-        std::vector<IGraphic *> getGraphicLibs() const;
-        std::vector<std::string> getGraphicLibsNames() const;
-        std::vector<IGame *> getGameLibs() const;
-        std::vector<std::string> getGameLibsNames() const;
-
+        void setGraphicLib(IGraphic *lib);
+        void setGameLib(IGame *lib);
+        IGraphic *getGraphicLib() const;
+        IGame *getGameLib() const;
     private:
-        std::vector<IGraphic *> _graphicLibs;
-        std::vector<std::string> _graphicLibsNames;
-        std::vector<IGame *> _gameLibs;
-        std::vector<std::string> _gameLibsNames;
+        IGraphic *_graphicLib;
+        IGame *_gameLib;
     };
 }
 

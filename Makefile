@@ -8,7 +8,7 @@
 SRC		=	src/main.cpp							\
 			src/LibLoader/LibLoader.cpp				\
 			src/menu.cpp							\
-			src/Core/Core.cpp						\
+			src/utils/Core/Core.cpp					\
 
 OBJ		=	$(SRC:.cpp=.o)
 
