@@ -17,14 +17,11 @@ namespace Arcade {
     class IGraphic {
     public:
         virtual void drawPixel(Pixel *pixel) = 0;
-        virtual void initWindow(std::string) = 0;
         virtual void drawText(Text *text) = 0;
         virtual void myClear() = 0;
         virtual void myRefresh() = 0;
         virtual Arcade::CommandType getInput() = 0;
-        virtual void destroyWindow() = 0;
         virtual int convertToDisplay(int size, int max, Round round) = 0;
-        virtual int maxWindow(MaxWindow max) = 0;
     };
 }
 
