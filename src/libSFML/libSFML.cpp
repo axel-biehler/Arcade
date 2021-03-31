@@ -7,6 +7,11 @@
 
 #include "libSFML.hpp"
 
+extern "C" Arcade::IGraphic *getLib()
+{
+    return new Arcade::libSFML();
+}
+
 Arcade::libSFML::libSFML()
 {
     _window.create(sf::VideoMode(800, 600), "Arcade");
@@ -91,9 +96,4 @@ Arcade::CommandType Arcade::libSFML::getInput()
     } else {
         return Arcade::NONE;
     }
-}
-
-Arcade::IGraphic *getLib()
-{
-    return new Arcade::libSFML;
 }

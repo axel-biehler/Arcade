@@ -24,10 +24,7 @@ int main(int ac, char **av)
     }
     Arcade::Core core;
     Arcade::LibLoader loader;
-    std::string str(av[1]);
-    std::cout << str << std::endl;
-    auto *graphicLib = loader.loadSharedLib<Arcade::IGraphic>(str);
-    std::cout << "lol2" << std::endl;
+    auto *graphicLib = loader.loadSharedLib<Arcade::IGraphic>(av[1]);
     if (!graphicLib) {
         std::cout << "Loading base library failed" << std::endl;
         return 84;

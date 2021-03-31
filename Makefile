@@ -5,19 +5,19 @@
 ## Makefile
 ##
 
+all: core games graphicals
+
 graphicals:
-	cd src/libNcurses && make
-	cd src/libSDL && make
-	cd src/libSFML && make
+	#cd src/libNcurses && make
+	#cd src/libSDL && make
+	make -C src/libSFML
 
 games:
-	cd src/Pacman && make
-	cd src/Snake && make
+	#cd src/Pacman && make
+	#cd src/Snake && make
 
 core:
-	cd src/Core && make
-
-all: games graphicals core
+	make -C src/Core
 
 clean:
 	cd src/libNcurses && make clean
@@ -36,3 +36,5 @@ fclean:
 	cd src/Core && make fclean
 
 re:	fclean all
+
+.PHONY:	graphicals games core all clean fclean re
