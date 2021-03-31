@@ -24,7 +24,6 @@ namespace Arcade {
         void myRefresh() override;
         Arcade::CommandType getInput() override;
         int convertToDisplay(int size, int max, Round round) override;
-        int maxWindow(MaxWindow max) override;
     private:
         sf::RenderWindow _window;
     };

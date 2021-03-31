@@ -21,6 +21,7 @@ Arcade::libSFML::~libSFML()
 
 void Arcade::libSFML::drawPixel(Arcade::Pixel *pixel)
 {
+    sf::Vector2u winSize = _window.getSize();
 }
 
 void Arcade::libSFML::drawText(Arcade::Text *text)
@@ -39,11 +40,29 @@ void Arcade::libSFML::myRefresh()
 
 Arcade::CommandType Arcade::libSFML::getInput()
 {
+    sf::Event event;
 
-    return Arcade::SPACE;
-}
-
-int Arcade::libSFML::convertToDisplay(int size, int max, Arcade::Round round)
-{
-    return 0;
+    _window.pollEvent((sf::Event &)event);
+    if (event.type == sf::Event::Resized)
+        return Arcade::RESIZE;
+    if (event.type == sf::Event::Closed)
+        return Arcade::ESCAPE;
+    if (event.type == sf::Event::KeyReleased) {
+        switch (event.key.code) {
+            case sf::Keyboard::Space:
+                return Arcade::SPACE;
+            case sf::Keyboard::Up:
+                return Arcade::KEYUP;
+            case sf::Keyboard::Down:
+                return Arcade::KEYDOWN;
+            case sf::Keyboard::Escape:
+                return Arcade::ESCAPE;
+            case sf::Keyboard::Enter:
+                return Arcade::ENTER;
+            default:
+                return Arcade::NONE;
+        }
+    } else {
+        return Arcade::NONE;
+    }
 }
