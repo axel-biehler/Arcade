@@ -10,9 +10,9 @@
 
 #include <iostream>
 #include <dlfcn.h>
-#include "IGame.hpp"
-#include "IGraphic.hpp"
-#include "PersonnalType.hpp"
+#include "../../../includes/IGame.hpp"
+#include "../../../includes/IGraphic.hpp"
+#include "../../../includes/PersonnalType.hpp"
 #include <vector>
 #include <math.h>
 
@@ -23,8 +23,9 @@ namespace Arcade {
         virtual ~LibLoader();
 
         template<typename T>
-        T *loadSharedLib(std::string const &fp, T *)
+        T *loadSharedLib(std::string const &fp)
         {
+            std::cout << fp << std::endl;
             void *sharedLib = dlopen(fp.c_str(), RTLD_LAZY);
             T *(*getLib)();
 

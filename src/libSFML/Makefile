@@ -19,7 +19,7 @@ LFLAGS  =		-shared
 
 $(NAME):	$(OBJ)
 	g++ $(CFLAGS) $(SRC)
-	g++ -o $(NAME) $(LFLAGS) $(OBJ)
+	g++ -o $(NAME) $(LFLAGS) $(OBJ) -lcsfml-graphics -lcsfml-window -lcsfml-system
 	mv $(NAME) ../../lib
 
 clean:

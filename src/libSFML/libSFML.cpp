@@ -21,11 +21,37 @@ Arcade::libSFML::~libSFML()
 
 void Arcade::libSFML::drawPixel(Arcade::Pixel *pixel)
 {
-    sf::Vector2u winSize = _window.getSize();
+    sf::RectangleShape toDraw;
+
+    toDraw.setSize(sf::Vector2f(pixel->getSize(), pixel->getSize()));
+    toDraw.setPosition((float)pixel->getXPos(), (float)pixel->getYPos());
+    sf::Color color = sf::Color::Black;
+    if (pixel->getColor() == Arcade::BLUE)
+        color = sf::Color::Blue;
+    else if (pixel->getColor() == Arcade::RED)
+        color = sf::Color::Red;
+    else if (pixel->getColor() == Arcade::WHITE)
+        color = sf::Color::White;
+    toDraw.setFillColor(color);
+    _window.draw(toDraw);
 }
 
 void Arcade::libSFML::drawText(Arcade::Text *text)
 {
+    sf::Text toDraw;
+
+    toDraw.setCharacterSize(text->getSize());
+    toDraw.setPosition((float)text->getXPos(), (float)text->getYPos());
+    toDraw.setString(text->getStr());
+    sf::Color color = sf::Color::Black;
+    if (text->getColor() == Arcade::BLUE)
+        color = sf::Color::Blue;
+    else if (text->getColor() == Arcade::RED)
+        color = sf::Color::Red;
+    else if (text->getColor() == Arcade::WHITE)
+        color = sf::Color::White;
+    toDraw.setFillColor(color);
+    _window.draw(toDraw);
 }
 
 void Arcade::libSFML::myClear()
@@ -65,4 +91,9 @@ Arcade::CommandType Arcade::libSFML::getInput()
     } else {
         return Arcade::NONE;
     }
+}
+
+Arcade::IGraphic *getLib()
+{
+    return new Arcade::libSFML;
 }

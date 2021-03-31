@@ -5,7 +5,6 @@
 ** Created by arthur,
 */
 
-#include <experimental/filesystem>
 #include "Core.hpp"
 
 Arcade::Core::Core()

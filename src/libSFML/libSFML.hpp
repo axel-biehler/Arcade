@@ -23,10 +23,10 @@ namespace Arcade {
         void myClear() override;
         void myRefresh() override;
         Arcade::CommandType getInput() override;
-        int convertToDisplay(int size, int max, Round round) override;
     private:
         sf::RenderWindow _window;
     };
+    IGraphic *getLib();
 }
 
 #endif //B_OOP_400_STG_4_1_ARCADE_MAXIME_FRECHARD_LIBSFML_HPP

@@ -5,8 +5,9 @@
 ## Makefile
 ##
 
-SRC		=	Core.cpp		\
-			../main.cpp		\
+SRC		=	Core.cpp								\
+			../main.cpp								\
+			../utils/LibLoader/LibLoader.cpp		\
 
 OBJ		=	$(SRC:.cpp=.o)
 

@@ -6,8 +6,8 @@
 */
 
 #include <iostream>
-#include "LibLoader/LibLoader.hpp"
-#include "utils/Core/Core.hpp"
+#include "utils/LibLoader/LibLoader.hpp"
+#include "Core/Core.hpp"
 
 void render_menu(Arcade::IGraphic *renderer);
 
@@ -20,8 +20,18 @@ int main(int ac, char **av)
 {
     if (ac < 2) {
         print_usage();
-        exit(84);
+        return 84;
     }
     Arcade::Core core;
     Arcade::LibLoader loader;
+    std::string str(av[1]);
+    std::cout << str << std::endl;
+    auto *graphicLib = loader.loadSharedLib<Arcade::IGraphic>(str);
+    std::cout << "lol2" << std::endl;
+    if (!graphicLib) {
+        std::cout << "Loading base library failed" << std::endl;
+        return 84;
+    }
+    //core.setGraphicLib(graphicLib);
+
 }
