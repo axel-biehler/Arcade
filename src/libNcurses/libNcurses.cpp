@@ -82,6 +82,9 @@ Arcade::CommandType Arcade::libNcurses::getInput()
     case KEY_ENTER:
         cmd = ENTER;
         break;
+    case ' ':
+        cmd = SPACE;
+        break;
     }
     return cmd;
 }
