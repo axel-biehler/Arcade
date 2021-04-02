@@ -38,5 +38,22 @@ Arcade::LibSDL::~LibSDL()
 
 Arcade::LibSDL::drawPixel(Pixel *pixel)
 {
+    SDL_Surface *surface;
 
+    SDL_LockSurface(surface);
+    std::vector<uint8_t> pixels(surface->h * surface->pitch, 0);
+
+    int dy;
+    int dx;
+    int maxwidth = width * 3;
+    for (dy = y; dy < height; dy++) {
+        for (dx = x; dx < maxwidth; dx += 3) {
+            pixels[dx + (dy * surface->pitch)] = 0;
+            pixels[dx + (dy * surface->pitch) + 1] = 255;
+            pixels[dx + (dy * surface->pitch) + 2] = 0;
+        }
+    }
+    memcpy(surface->pixels, pixels.data(), surface->pitch * surface->h);
+
+    SDL_UnlockSurface(surface);
 }
