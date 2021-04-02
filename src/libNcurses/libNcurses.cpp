@@ -79,5 +79,9 @@ Arcade::CommandType Arcade::libNcurses::getInput()
     case KEY_UP:
         cmd = KEYUP;
         break;
+    case KEY_ENTER:
+        cmd = ENTER;
+        break;
     }
+    return cmd;
 }
