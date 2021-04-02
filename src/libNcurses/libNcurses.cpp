@@ -8,7 +8,7 @@
 #include <cstring>
 #include <iostream>
 #include "libNcurses.hpp"
-#include "PersonnalType.hpp"
+#include "../../includes/PersonnalType.hpp"
 
 extern "C" Arcade::IGraphic *getLib()
 {

@@ -5,7 +5,7 @@
 ** libNcurses
 */
 
-#include "IGraphic.hpp"
+#include "../../includes/IGraphic.hpp"
 #include <ncurses.h>
 
 #pragma once

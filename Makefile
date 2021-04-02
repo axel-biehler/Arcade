@@ -8,8 +8,8 @@
 all: core games graphicals
 
 graphicals:
-	#cd src/libNcurses && make
-	#cd src/libSDL && make
+	cd src/libNcurses && make
+	cd src/libSDL && make
 	make -C src/libSFML
 
 games:
