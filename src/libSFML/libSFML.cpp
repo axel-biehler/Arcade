@@ -5,11 +5,17 @@
 ** Created by arthur,
 */
 
+#include <experimental/filesystem>
 #include "libSFML.hpp"
 
 extern "C" Arcade::IGraphic *getLib()
 {
     return new Arcade::libSFML();
+}
+
+extern "C" Arcade::LibType getLibType()
+{
+    return (Arcade::LibType)Arcade::GRAPHIC;
 }
 
 Arcade::libSFML::libSFML()
@@ -43,9 +49,12 @@ void Arcade::libSFML::drawPixel(Arcade::Pixel *pixel)
 
 void Arcade::libSFML::drawText(Arcade::Text *text)
 {
-    sf::Text toDraw;
+    sf::Text toDraw = sf::Text();
+    sf::Font font = sf::Font();
 
-    toDraw.setCharacterSize(text->getSize());
+    font.loadFromFile("src/font/Gameplay.ttf");
+    toDraw.setFont(font);
+    toDraw.setCharacterSize(text->getSize() * 20);
     toDraw.setPosition((float)text->getXPos(), (float)text->getYPos());
     toDraw.setString(text->getStr());
     sf::Color color = sf::Color::Black;
@@ -57,6 +66,7 @@ void Arcade::libSFML::drawText(Arcade::Text *text)
         color = sf::Color::White;
     toDraw.setFillColor(color);
     _window.draw(toDraw);
+    _window.display();
 }
 
 void Arcade::libSFML::myClear()
@@ -72,12 +82,14 @@ void Arcade::libSFML::myRefresh()
 Arcade::CommandType Arcade::libSFML::getInput()
 {
     sf::Event event;
+    event.type = sf::Event::MouseLeft;
 
     _window.pollEvent((sf::Event &)event);
     if (event.type == sf::Event::Resized)
         return Arcade::RESIZE;
-    if (event.type == sf::Event::Closed)
+    if (event.type == sf::Event::Closed) {
         return Arcade::ESCAPE;
+    }
     if (event.type == sf::Event::KeyReleased) {
         switch (event.key.code) {
             case sf::Keyboard::Space:

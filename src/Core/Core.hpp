@@ -14,6 +14,7 @@
 #include "../../includes/IGame.hpp"
 #include "../../includes/PersonnalType.hpp"
 #include "../utils/LibLoader/LibLoader.hpp"
+#include "../utils/Text/Text.hpp"
 
 namespace Arcade {
     class Core {

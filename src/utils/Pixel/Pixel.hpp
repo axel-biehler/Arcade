@@ -25,8 +25,8 @@ namespace Arcade {
     private:
         int _xPos;
         int _yPos;
-        int _size;
         Color _color;
+        int _size;
     };
 }
 

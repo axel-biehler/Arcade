@@ -8,6 +8,8 @@
 SRC		=	Core.cpp								\
 			../main.cpp								\
 			../utils/LibLoader/LibLoader.cpp		\
+			../utils/Menu/menu.cpp					\
+			../utils/Text/Text.cpp					\
 
 OBJ		=	$(SRC:.cpp=.o)
 

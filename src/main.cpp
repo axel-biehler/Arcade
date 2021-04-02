@@ -8,8 +8,7 @@
 #include <iostream>
 #include "utils/LibLoader/LibLoader.hpp"
 #include "Core/Core.hpp"
-
-void render_menu(Arcade::IGraphic *renderer);
+#include "utils/Menu/menu.hpp"
 
 static void print_usage()
 {
@@ -29,6 +28,6 @@ int main(int ac, char **av)
         std::cout << "Loading base library failed" << std::endl;
         return 84;
     }
-    //core.setGraphicLib(graphicLib);
-
+    core.setGraphicLib(graphicLib);
+    display_menu(core, loader);
 }

@@ -9,6 +9,8 @@
 
 Arcade::Core::Core()
 {
+    _graphicLib = nullptr;
+    _gameLib = nullptr;
 }
 
 Arcade::Core::~Core()

@@ -12,6 +12,7 @@
 #include "../../includes/IGraphic.hpp"
 #include "../utils/Pixel/Pixel.hpp"
 #include "../utils/Text/Text.hpp"
+#include "../../includes/PersonnalType.hpp"
 
 namespace Arcade {
     class libSFML: public IGraphic {
@@ -27,6 +28,7 @@ namespace Arcade {
         sf::RenderWindow _window;
     };
     IGraphic *getLib();
+    LibType getLibType();
 }
 
 #endif //B_OOP_400_STG_4_1_ARCADE_MAXIME_FRECHARD_LIBSFML_HPP

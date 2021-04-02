@@ -29,7 +29,7 @@ std::vector<std::pair<std::string, std::string>> Arcade::LibLoader::getLibAvaila
             if (getLibType() == type && p.path().string().find(".so", 0) != std::string::npos) {
                 std::pair<std::string, std::string> pathName;
                 pathName.second = p.path().string();
-                name = p.path().string().substr(p.path().string().find('_', 0));
+                name = p.path().string().substr(p.path().string().find('_', 0) + 1);
                 pathName.first = name.substr(0, name.find('.'));
                 libs.push_back(pathName);
             }
