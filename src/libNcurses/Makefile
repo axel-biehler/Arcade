@@ -5,7 +5,7 @@
 ## Makefile
 ##
 
-SRC		=
+SRC		=	libNcurses.cpp		\
 
 OBJ		=	$(SRC:.cpp=.o)
 
@@ -13,7 +13,7 @@ NAME	=	arcade_ncurses.so
 
 all:	$(NAME)
 
-CFLAGS	=		-c -Wall -Werror -Wextra -fpic
+CFLAGS	=		-c -Wall -Werror -Wextra -fpic -I../../includes/
 
 LFLAGS  =		-shared
 
