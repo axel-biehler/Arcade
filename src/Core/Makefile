@@ -10,6 +10,7 @@ SRC		=	Core.cpp								\
 			../utils/LibLoader/LibLoader.cpp		\
 			../utils/Menu/menu.cpp					\
 			../utils/Text/Text.cpp					\
+			../utils/Pixel/Pixel.cpp				\
 
 OBJ		=	$(SRC:.cpp=.o)
 

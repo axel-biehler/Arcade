@@ -34,13 +34,13 @@ void Arcade::libSFML::drawPixel(Arcade::Pixel *pixel)
 {
     sf::RectangleShape toDraw;
     sf::FloatRect textRect;
+    float sizeX = (float)pixel->getSize() * (float)_window.getSize().x / 100;
+    float sizeY = (float)pixel->getSize() * (float)_window.getSize().y / 100;
 
-    toDraw.setSize(sf::Vector2f(pixel->getSize(), pixel->getSize()));
+    toDraw.setSize(sf::Vector2f(sizeX, sizeY));
     textRect = toDraw.getLocalBounds();
-    toDraw.setOrigin(textRect.left + textRect.width/2.0f,
-                textRect.top  + textRect.height/2.0f);
-    toDraw.setPosition(sf::VideoMode::getDesktopMode().width / (float)pixel->getXPos() * 100,
-                sf::VideoMode::getDesktopMode().width / (float)pixel->getYPos() * 100);
+    toDraw.setOrigin(textRect.width / 2.0f, textRect.height / 2.0f);
+    toDraw.setPosition(_window.getSize().x * (float)pixel->getXPos() / 100, _window.getSize().y * (float)pixel->getYPos() / 100);
     sf::Color color = sf::Color::Black;
     if (pixel->getColor() == Arcade::BLUE)
         color = sf::Color::Blue;
@@ -54,8 +54,8 @@ void Arcade::libSFML::drawPixel(Arcade::Pixel *pixel)
 
 void Arcade::libSFML::drawText(Arcade::Text *text)
 {
-    sf::Text toDraw = sf::Text();
-    sf::Font font = sf::Font();
+    sf::Text toDraw;
+    sf::Font font;
     sf::FloatRect textRect;
 
     font.loadFromFile("src/font/Gameplay.ttf");
@@ -63,10 +63,8 @@ void Arcade::libSFML::drawText(Arcade::Text *text)
     toDraw.setCharacterSize(text->getSize() * 20);
     toDraw.setString(text->getStr());
     textRect = toDraw.getLocalBounds();
-    toDraw.setOrigin(textRect.left + textRect.width/2.0f,
-               textRect.top  + textRect.height/2.0f);
-    toDraw.setPosition(sf::VideoMode::getDesktopMode().width / (float)text->getXPos() * 100,
-                sf::VideoMode::getDesktopMode().width / (float)text->getYPos() * 100);
+    toDraw.setOrigin(textRect.width / 2.0f,textRect.top  + textRect.height / 2.0f);
+    toDraw.setPosition(_window.getSize().x * (float)text->getXPos() / 100, _window.getSize().y * (float)text->getYPos() / 100);
     sf::Color color = sf::Color::Black;
     if (text->getColor() == Arcade::BLUE)
         color = sf::Color::Blue;
@@ -76,7 +74,6 @@ void Arcade::libSFML::drawText(Arcade::Text *text)
         color = sf::Color::White;
     toDraw.setFillColor(color);
     _window.draw(toDraw);
-    _window.display();
 }
 
 void Arcade::libSFML::myClear()

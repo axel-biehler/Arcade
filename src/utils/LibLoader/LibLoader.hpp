@@ -25,7 +25,6 @@ namespace Arcade {
         template<typename T>
         T *loadSharedLib(std::string const &fp)
         {
-            std::cout << fp << std::endl;
             void *sharedLib = dlopen(fp.c_str(), RTLD_LAZY);
             T *(*getLib)();
 
