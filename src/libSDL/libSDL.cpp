@@ -33,15 +33,28 @@ Arcade::LibSDL::LibSDL()
 
 Arcade::LibSDL::~LibSDL()
 {
+    SDL_DestroyRenderer(_renderer);
     SDL_DestroyWindow(_window);
     SDL_Quit();
 }
 
 void Arcade::LibSDL::drawPixel(Pixel *pixel)
 {
-    SDL_Rect rect{pixel->getXPos(), pixel->getYPos(), pixel->getSize(), pixel->getSize()};
+    float sizeX = (float)pixel->getSize() * (float)_window.SDL_GetWindowSize().x / 100;
+    float sizeY = (float)pixel->getSize() * (float)_window.SDL_GetWindowSize()().y / 100;
+    SDL_Rect rect{
+        _window.SDL_GetWindowSize().x * (float)pixel->getXPos() / 100,
+        _window.SDL_GetWindowSize().y * (float)pixel->getYPos() / 100,
+        sizeX,
+        sizeY
+    };
 
-    SDL_SetRenderDrawColor(_renderer, 0, 0, 255, 255);
+    if (pixel->getColor() == BLUE)
+        SDL_SetRenderDrawColor(_renderer, 0, 0, 255, 255);
+    if (pixel->getColor() == RED)
+        SDL_SetRenderDrawColor(_renderer, 255, 0, 0, 255);
+    if (pixel->getColor() == WHITE)
+        SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 255);
     SDL_RenderFillRect(_renderer, &rect);
 }
 
@@ -74,15 +87,39 @@ void Arcade::LibSDL::drawText(Text *text)
 
 void Arcade::LibSDL::myClear()
 {
-
+    SDL_RenderClear(_renderer);
 }
 
 void Arcade::LibSDL::myRefresh()
 {
-
+    SDL_RenderPresent(_renderer);
 }
 
 Arcade::CommandType Arcade::LibSDL::getInput()
 {
+    SDL_Event event;
+
+    SDL_PollEvent(&event);
+    if (event.type == SDL_QUIT)
+        return Arcade::ESCAPE;
+    else if (event.type == SDL_WINDOWEVENT) {
+        if (event.window.event == SDL_WINDOWEVENT_RESIZED)
+            return Arcade::RESIZE;
+    } else if (event.type == SDL_KEYDOWN) {
+        switch (event.key.keysym.sym) {
+            case SDLK_SPACE:
+                return Arcade::SPACE;
+            case SDLK_UP:
+                return Arcade::KEYUP;
+            case SDLK_DOWN:
+                return Arcade::KEYDOWN;
+            case SDLK_ESCAPE:
+                return Arcade::ESCAPE;
+            case SDLK_KP_ENTER:
+                return Arcade::ENTER;
+            default:
+                return Arcade::NONE;
+        }
+    }
     return Arcade::CommandType::NONE;
 }
