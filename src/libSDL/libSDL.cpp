@@ -40,8 +40,10 @@ Arcade::LibSDL::~LibSDL()
 
 void Arcade::LibSDL::drawPixel(Pixel *pixel)
 {
-    float sizeX = (float)pixel->getSize() * (float)_window.SDL_GetWindowSize().x / 100;
-    float sizeY = (float)pixel->getSize() * (float)_window.SDL_GetWindowSize()().y / 100;
+    SDL_DisplayMode dm;
+    SDL_GetDesktopDisplayMode(0, &dm);
+    float sizeX = (float)pixel->getSize() * (float)dm.w / 100;
+    float sizeY = (float)pixel->getSize() * (float)dm.h / 100;
     SDL_Rect rect{
         _window.SDL_GetWindowSize().x * (float)pixel->getXPos() / 100,
         _window.SDL_GetWindowSize().y * (float)pixel->getYPos() / 100,
