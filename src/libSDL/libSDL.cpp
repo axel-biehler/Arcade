@@ -6,6 +6,7 @@
 */
 
 #include "LibSDL.hpp"
+#include <SDL/SDL_ttf.h>
 #include "../../includes/IGraphic.hpp"
 
 extern "C" Arcade::IGraphic *getLib()
@@ -26,7 +27,7 @@ Arcade::LibSDL::LibSDL()
     _renderer = SDL_CreateRenderer(
         _window,
         -1,
-        SDL_RENDERER_ACCELERATED,
+        SDL_RENDERER_ACCELERATED
     );
 }
 
@@ -36,24 +37,16 @@ Arcade::LibSDL::~LibSDL()
     SDL_Quit();
 }
 
-Arcade::LibSDL::drawPixel(Pixel *pixel)
+void Arcade::LibSDL::drawPixel(Pixel *pixel)
 {
-    SDL_Surface *surface;
+    SDL_Rect rect{pixel->getXPos(), pixel->getYPos(), pixel->getSize(), pixel->getSize()};
 
-    SDL_LockSurface(surface);
-    std::vector<uint8_t> pixels(surface->h * surface->pitch, 0);
+    SDL_SetRenderDrawColor(_renderer, 0, 0, 255, 255);
+    SDL_RenderFillRect(_renderer, &rect);
+}
 
-    int dy;
-    int dx;
-    int maxwidth = width * 3;
-    for (dy = y; dy < height; dy++) {
-        for (dx = x; dx < maxwidth; dx += 3) {
-            pixels[dx + (dy * surface->pitch)] = 0;
-            pixels[dx + (dy * surface->pitch) + 1] = 255;
-            pixels[dx + (dy * surface->pitch) + 2] = 0;
-        }
-    }
-    memcpy(surface->pixels, pixels.data(), surface->pitch * surface->h);
-
-    SDL_UnlockSurface(surface);
+void Arcade::LibSDL::drawText(Text *text)
+{
+    TTF_Font *font = TTF_OpenFont("../utils/fonts/ARCADE_N.TTF");
+    SDL_Color front = SDL_BLUE;
 }

@@ -10,6 +10,8 @@
 #include <SDL2/SDL.h>
 #include "../../includes/IGraphic.hpp"
 
+#define SDL_BLUE SDL_Color{0, 0, 255}
+
 namespace Arcade {
     class LibSDL : public IGraphic{
         public:
