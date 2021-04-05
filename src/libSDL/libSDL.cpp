@@ -42,13 +42,13 @@ void Arcade::LibSDL::drawPixel(Pixel *pixel)
 {
     SDL_DisplayMode dm;
     SDL_GetDesktopDisplayMode(0, &dm);
-    float sizeX = (float)pixel->getSize() * (float)dm.w / 100;
-    float sizeY = (float)pixel->getSize() * (float)dm.h / 100;
+    float sizeX = pixel->getSize() * dm.w / 100;
+    float sizeY = pixel->getSize() * dm.h / 100;
     SDL_Rect rect{
-        _window.SDL_GetWindowSize().x * (float)pixel->getXPos() / 100,
-        _window.SDL_GetWindowSize().y * (float)pixel->getYPos() / 100,
-        sizeX,
-        sizeY
+        dm.w * pixel->getXPos() / 100,
+        dm.h * pixel->getYPos() / 100,
+        (int)sizeX,
+        (int)sizeY
     };
 
     if (pixel->getColor() == BLUE)
