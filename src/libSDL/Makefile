@@ -13,9 +13,9 @@ NAME	=	arcade_sdl2.so
 
 all:	$(NAME)
 
-CFLAGS	=		-c -Wall -Werror -Wextra -fpic sdl2-config --libs --cflags` -ggdb3 -O0 --std=c99 -Wall -lSDL2_image -lSDL2_ttf -lm
+CFLAGS	=		-c -Wall -Werror -Wextra -fPIC
 
-LFLAGS  =		-shared
+LFLAGS  =		-shared -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf -lstdc++fs
 
 $(NAME):	$(OBJ)
 	g++ $(CFLAGS) $(SRC)
