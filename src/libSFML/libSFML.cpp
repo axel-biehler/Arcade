@@ -33,9 +33,14 @@ Arcade::libSFML::~libSFML()
 void Arcade::libSFML::drawPixel(Arcade::Pixel *pixel)
 {
     sf::RectangleShape toDraw;
+    sf::FloatRect textRect;
 
     toDraw.setSize(sf::Vector2f(pixel->getSize(), pixel->getSize()));
-    toDraw.setPosition((float)pixel->getXPos(), (float)pixel->getYPos());
+    textRect = toDraw.getLocalBounds();
+    toDraw.setOrigin(textRect.left + textRect.width/2.0f,
+                textRect.top  + textRect.height/2.0f);
+    toDraw.setPosition(sf::VideoMode::getDesktopMode().width / (float)pixel->getXPos() * 100,
+                sf::VideoMode::getDesktopMode().width / (float)pixel->getYPos() * 100);
     sf::Color color = sf::Color::Black;
     if (pixel->getColor() == Arcade::BLUE)
         color = sf::Color::Blue;
@@ -51,12 +56,17 @@ void Arcade::libSFML::drawText(Arcade::Text *text)
 {
     sf::Text toDraw = sf::Text();
     sf::Font font = sf::Font();
+    sf::FloatRect textRect;
 
     font.loadFromFile("src/font/Gameplay.ttf");
     toDraw.setFont(font);
     toDraw.setCharacterSize(text->getSize() * 20);
-    toDraw.setPosition((float)text->getXPos(), (float)text->getYPos());
     toDraw.setString(text->getStr());
+    textRect = toDraw.getLocalBounds();
+    toDraw.setOrigin(textRect.left + textRect.width/2.0f,
+               textRect.top  + textRect.height/2.0f);
+    toDraw.setPosition(sf::VideoMode::getDesktopMode().width / (float)text->getXPos() * 100,
+                sf::VideoMode::getDesktopMode().width / (float)text->getYPos() * 100);
     sf::Color color = sf::Color::Black;
     if (text->getColor() == Arcade::BLUE)
         color = sf::Color::Blue;
