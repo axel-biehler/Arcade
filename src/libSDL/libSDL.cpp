@@ -5,9 +5,8 @@
 ** libSDL
 */
 
-#include "LibSDL.hpp"
 #include <SDL2/SDL_ttf.h>
-#include "../../includes/IGraphic.hpp"
+#include "LibSDL.hpp"
 
 extern "C" Arcade::IGraphic *getLib()
 {

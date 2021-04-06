@@ -9,6 +9,7 @@
 #define B_OOP_400_STG_4_1_ARCADE_MAXIME_FRECHARD_LIBSFML_HPP
 
 #include <SFML/Graphics.hpp>
+#include <map>
 #include "../../includes/IGraphic.hpp"
 #include "../utils/Pixel/Pixel.hpp"
 #include "../utils/Text/Text.hpp"
