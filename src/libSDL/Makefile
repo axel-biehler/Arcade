@@ -5,7 +5,7 @@
 ## Makefile
 ##
 
-SRC		=
+SRC		=	libSDL.cpp
 
 OBJ		=	$(SRC:.cpp=.o)
 
@@ -13,9 +13,9 @@ NAME	=	arcade_sdl2.so
 
 all:	$(NAME)
 
-CFLAGS	=		-c -Wall -Werror -Wextra -fpic
+CFLAGS	=		-c -Wall -Werror -Wextra -fPIC
 
-LFLAGS  =		-shared
+LFLAGS  =		-shared -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf -lstdc++fs
 
 $(NAME):	$(OBJ)
 	g++ $(CFLAGS) $(SRC)
