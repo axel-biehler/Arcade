@@ -41,15 +41,17 @@ void display_menu(Arcade::Core core, Arcade::LibLoader loader)
     bool row = false;
     auto graphics = loader.getLibAvailable(Arcade::GRAPHIC);
     auto games = loader.getLibAvailable(Arcade::GAME);
-    bool lastVal;
+    bool lastVal = false;
     std::pair<std::string, std::string> libraries;
     Arcade::Pixel myBox(50, 50, Arcade::GREEN, 100);
+    Arcade::Pixel myRedBox(50, 50, Arcade::RED, 30);
 
     while (handle_menu_event(select, row, renderer->getInput(), graphics.size(), games.size())) {
         graphics = loader.getLibAvailable(Arcade::GRAPHIC);
         games = loader.getLibAvailable(Arcade::GAME);
         renderer->myClear();
         renderer->drawPixel(&myBox);
+        renderer->drawPixel(&myRedBox);
         renderer->drawText(&titleGraph);
         renderer->drawText(&titleGame);
         if (lastVal != row && !lastVal)

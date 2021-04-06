@@ -19,7 +19,32 @@ extern "C" Arcade::LibType getLibType()
 {
     return (Arcade::LibType)Arcade::GRAPHIC;
 }
-
+/*
+static translateColor(Arcade::Color color)
+{
+    switch (color) {
+        case Arcade::Color::YELLOW:
+            return SDL_YELLOW;
+        case Arcade::Color::RED:
+            return SDL_RED;
+        case Arcade::Color::BLUE:
+            return SDL_BLUE;
+        case Arcade::Color::WHITE:
+            return SDL_WHITE;
+        case Arcade::Color::BLACK:
+            return SDL_BLACK;
+        case Arcade::Color::CYAN:
+            return SDL_CYAN;
+        case Arcade::Color::GREEN:
+            return SDL_GREEN;
+        case Arcade::Color::MAGENTA:
+            return SDL_MAGENTA;
+        case Arcade::Color::TRANSPARENT:
+            return SDL_TRANSPARENT;
+    }
+    return SDL_BLACK;
+}
+*/
 Arcade::libNcurses::libNcurses()
 {
     initscr();

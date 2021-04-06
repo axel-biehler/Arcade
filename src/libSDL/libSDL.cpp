@@ -45,22 +45,11 @@ static SDL_Color translateColor(Arcade::Color color)
 
 Arcade::LibSDL::LibSDL()
 {
-    /*_window = SDL_CreateWindow(
-        "Arcade",
-        SDL_WINDOWPOS_UNDEFINED,
-        SDL_WINDOWPOS_UNDEFINED,
-        800,
-        600,
-        SDL_WINDOW_OPENGL
-    );
-    _renderer = SDL_CreateRenderer(
-        _window,
-        -1,
-        SDL_RENDERER_ACCELERATED
-    );*/
     SDL_Init(SDL_INIT_EVERYTHING);
+    TTF_Init();
     _window = SDL_CreateWindow("Arcade", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 800, SDL_WINDOW_SHOWN);
     _renderer = SDL_CreateRenderer(_window, -1, 0);
+    _font = TTF_OpenFont("src/utils/fonts/ARCADE_N.TTF", 19);
     SDL_SetRenderDrawColor(_renderer, 0, 0, 0, 255);
     SDL_RenderPresent(_renderer);
     SDL_RenderClear(_renderer);
@@ -75,15 +64,17 @@ Arcade::LibSDL::~LibSDL()
 
 void Arcade::LibSDL::drawPixel(Pixel *pixel)
 {
-    SDL_DisplayMode dm;
-    SDL_GetDesktopDisplayMode(0, &dm);
-    float sizeX = pixel->getSize() * dm.w / 100;
-    float sizeY = pixel->getSize() * dm.h / 100;
+    int rendererW = 0;
+    int rendererH = 0;
+    SDL_GetRendererOutputSize(_renderer, &rendererW, &rendererH);
+    int sizeX = pixel->getSize() * rendererW / 100;
+    int sizeY = pixel->getSize() * rendererH / 100;
+
     SDL_Rect rect{
-        dm.w * pixel->getXPos() / 100,
-        dm.h * pixel->getYPos() / 100,
-        (int)sizeX,
-        (int)sizeY
+        rendererW * pixel->getXPos() / 100 - sizeX / 2,
+        rendererH * pixel->getYPos() / 100 - sizeY / 2,
+        sizeX,
+        sizeY
     };
     SDL_Color color = translateColor(pixel->getColor());
     SDL_SetRenderDrawColor(_renderer, color.r, color.g, color.b, color.a);
@@ -92,26 +83,26 @@ void Arcade::LibSDL::drawPixel(Pixel *pixel)
 
 void Arcade::LibSDL::drawText(Text *text)
 {
-    TTF_Font *font = TTF_OpenFont("../utils/fonts/ARCADE_N.TTF", 16);
-    SDL_Color color = SDL_BLUE;
+    SDL_Color color = translateColor(text->getColor());
     SDL_Surface *surfaceMessage;
     SDL_Texture *Message;
     SDL_Rect Message_rect;
     SDL_DisplayMode dm;
+    int textW = 0;
+    int textH = 0;
+    int rendererW = 0;
+    int rendererH = 0;
 
-    if (text->getColor() == Arcade::BLUE)
-        color = SDL_BLUE;
-    else if (text->getColor() == Arcade::RED)
-        color = SDL_RED;
-    else if (text->getColor() == Arcade::WHITE)
-        color = SDL_WHITE;
-    surfaceMessage = TTF_RenderText_Solid(font, text->getStr().c_str(), color);
+    TTF_SizeText(_font, text->getStr().c_str(), &textW, &textH);
+    SDL_GetRendererOutputSize(_renderer, &rendererW, &rendererH);
+
+    surfaceMessage = TTF_RenderText_Solid(_font, text->getStr().c_str(), color);
     Message = SDL_CreateTextureFromSurface(_renderer, surfaceMessage);
     SDL_GetDesktopDisplayMode(0, &dm);
-    Message_rect.x = dm.w * text->getXPos() / 100 - 0.5 * dm.w;
-    Message_rect.y = dm.h * text->getYPos() / 100 - 0.5 * dm.h;
-    Message_rect.w = dm.w;
-    Message_rect.h = dm.h;
+    Message_rect.x = rendererW * text->getXPos() / 100 - 0.5 * textW;
+    Message_rect.y = rendererH * text->getYPos() / 100 - 0.5 * textH;
+    Message_rect.w = textW;
+    Message_rect.h = textH;
     SDL_RenderCopy(_renderer, Message, NULL, &Message_rect);
     SDL_FreeSurface(surfaceMessage);
     SDL_DestroyTexture(Message);
@@ -131,7 +122,8 @@ Arcade::CommandType Arcade::LibSDL::getInput()
 {
     SDL_Event event;
 
-    SDL_PollEvent(&event);
+    if (!SDL_PollEvent(&event))
+        return Arcade::NO_EVENT;
     if (event.type == SDL_QUIT)
         return Arcade::ESC;
     if (event.type == SDL_KEYUP) {

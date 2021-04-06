@@ -33,7 +33,7 @@ std::vector<std::pair<std::string, std::string>> Arcade::LibLoader::getLibAvaila
                 pathName.first = name.substr(0, name.find('.'));
                 libs.push_back(pathName);
             }
-            dlclose(sharedLib);
+            //dlclose(sharedLib);
         }
     }
     return libs;

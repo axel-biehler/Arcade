@@ -13,13 +13,13 @@ NAME	=	arcade_ncurses.so
 
 all:	$(NAME)
 
-CFLAGS	=		-c -Wall -Werror -Wextra -fpic -I../../includes/
+CFLAGS	=		-c -Wall -Werror -Wextra -fPIC -I../../includes/
 
-LFLAGS  =		-shared
+LFLAGS  =		-shared -lncurses
 
 $(NAME):	$(OBJ)
 	g++ $(CFLAGS) $(SRC)
-	g++ -o $(NAME) $(LFLAGS) $(OBJ)
+	g++ -o $(NAME) $(LFLAGS) *.o
 	mv $(NAME) ../../lib
 
 clean:

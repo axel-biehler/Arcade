@@ -37,6 +37,7 @@ namespace Arcade {
     private:
         SDL_Window *_window;
         SDL_Renderer *_renderer;
+        TTF_Font *_font;
     };
     IGraphic *getLib();
     LibType getLibType();
