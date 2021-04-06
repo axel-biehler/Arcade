@@ -15,6 +15,11 @@ extern "C" Arcade::IGraphic *getLib()
     return new Arcade::libNcurses();
 }
 
+extern "C" Arcade::LibType getLibType()
+{
+    return (Arcade::LibType)Arcade::GRAPHIC;
+}
+
 Arcade::libNcurses::libNcurses()
 {
     initscr();
@@ -64,27 +69,10 @@ void Arcade::libNcurses::myRefresh()
 Arcade::CommandType Arcade::libNcurses::getInput()
 {
     int ch = getch();
-    Arcade::CommandType cmd = NONE;
+    Arcade::CommandType cmd = NO_EVENT;
 
     if (ch < 0)
         return cmd;
-    switch (ch)
-    {
-    case 27:
-        cmd = ESCAPE;
-        break;
-    case KEY_DOWN:
-        cmd = KEYDOWN;
-        break;
-    case KEY_UP:
-        cmd = KEYUP;
-        break;
-    case KEY_ENTER:
-        cmd = ENTER;
-        break;
-    case ' ':
-        cmd = SPACE;
-        break;
-    }
-    return cmd;
+    auto it = NCURSES_key.find(ch);
+    return it == NCURSES_key.end() ? Arcade::NO_EVENT : it->second;
 }

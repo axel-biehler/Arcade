@@ -14,9 +14,39 @@ extern "C" Arcade::IGraphic *getLib()
     return new Arcade::LibSDL();
 }
 
+extern "C" Arcade::LibType getLibType()
+{
+    return (Arcade::LibType)Arcade::GRAPHIC;
+}
+
+static SDL_Color translateColor(Arcade::Color color)
+{
+    switch (color) {
+        case Arcade::Color::YELLOW:
+            return SDL_YELLOW;
+        case Arcade::Color::RED:
+            return SDL_RED;
+        case Arcade::Color::BLUE:
+            return SDL_BLUE;
+        case Arcade::Color::WHITE:
+            return SDL_WHITE;
+        case Arcade::Color::BLACK:
+            return SDL_BLACK;
+        case Arcade::Color::CYAN:
+            return SDL_CYAN;
+        case Arcade::Color::GREEN:
+            return SDL_GREEN;
+        case Arcade::Color::MAGENTA:
+            return SDL_MAGENTA;
+        case Arcade::Color::TRANSPARENT:
+            return SDL_TRANSPARENT;
+    }
+    return SDL_BLACK;
+}
+
 Arcade::LibSDL::LibSDL()
 {
-    _window = SDL_CreateWindow(
+    /*_window = SDL_CreateWindow(
         "Arcade",
         SDL_WINDOWPOS_UNDEFINED,
         SDL_WINDOWPOS_UNDEFINED,
@@ -28,7 +58,13 @@ Arcade::LibSDL::LibSDL()
         _window,
         -1,
         SDL_RENDERER_ACCELERATED
-    );
+    );*/
+    SDL_Init(SDL_INIT_EVERYTHING);
+    _window = SDL_CreateWindow("Arcade", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 800, SDL_WINDOW_SHOWN);
+    _renderer = SDL_CreateRenderer(_window, -1, 0);
+    SDL_SetRenderDrawColor(_renderer, 0, 0, 0, 255);
+    SDL_RenderPresent(_renderer);
+    SDL_RenderClear(_renderer);
 }
 
 Arcade::LibSDL::~LibSDL()
@@ -50,13 +86,8 @@ void Arcade::LibSDL::drawPixel(Pixel *pixel)
         (int)sizeX,
         (int)sizeY
     };
-
-    if (pixel->getColor() == BLUE)
-        SDL_SetRenderDrawColor(_renderer, 0, 0, 255, 255);
-    if (pixel->getColor() == RED)
-        SDL_SetRenderDrawColor(_renderer, 255, 0, 0, 255);
-    if (pixel->getColor() == WHITE)
-        SDL_SetRenderDrawColor(_renderer, 255, 255, 255, 255);
+    SDL_Color color = translateColor(pixel->getColor());
+    SDL_SetRenderDrawColor(_renderer, color.r, color.g, color.b, color.a);
     SDL_RenderFillRect(_renderer, &rect);
 }
 
@@ -103,25 +134,11 @@ Arcade::CommandType Arcade::LibSDL::getInput()
 
     SDL_PollEvent(&event);
     if (event.type == SDL_QUIT)
-        return Arcade::ESCAPE;
-    else if (event.type == SDL_WINDOWEVENT) {
-        if (event.window.event == SDL_WINDOWEVENT_RESIZED)
-            return Arcade::RESIZE;
-    } else if (event.type == SDL_KEYDOWN) {
-        switch (event.key.keysym.sym) {
-            case SDLK_SPACE:
-                return Arcade::SPACE;
-            case SDLK_UP:
-                return Arcade::KEYUP;
-            case SDLK_DOWN:
-                return Arcade::KEYDOWN;
-            case SDLK_ESCAPE:
-                return Arcade::ESCAPE;
-            case SDLK_KP_ENTER:
-                return Arcade::ENTER;
-            default:
-                return Arcade::NONE;
-        }
+        return Arcade::ESC;
+    if (event.type == SDL_KEYUP) {
+        auto it = SDL_key.find(event.key.keysym.sym);
+        return it == SDL_key.end() ? Arcade::NO_EVENT : it->second;
+    } else {
+        return Arcade::NO_EVENT;
     }
-    return Arcade::CommandType::NONE;
 }

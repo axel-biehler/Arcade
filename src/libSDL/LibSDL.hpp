@@ -14,6 +14,12 @@
 #define SDL_BLUE SDL_Color{0, 0, 255, 255}
 #define SDL_WHITE SDL_Color{255, 255, 255, 255}
 #define SDL_RED SDL_Color{255, 0, 0, 255}
+#define SDL_YELLOW SDL_Color{255, 255, 0, 255}
+#define SDL_BLACK SDL_Color{0, 0, 0, 255}
+#define SDL_CYAN SDL_Color{0, 255, 255, 255}
+#define SDL_GREEN SDL_Color{0, 255, 0, 255}
+#define SDL_MAGENTA SDL_Color{255, 0, 255, 255}
+#define SDL_TRANSPARENT SDL_Color{0, 0, 0, 0}
 
 namespace Arcade {
     class LibSDL : public IGraphic{

@@ -8,9 +8,9 @@
 all: core games graphicals
 
 graphicals:
-	cd src/libNcurses && make
-	cd src/libSDL && make
 	make -C src/libSFML
+	make -C src/libSDL
+	make -C src/libNcurses
 
 games:
 	#cd src/Pacman && make

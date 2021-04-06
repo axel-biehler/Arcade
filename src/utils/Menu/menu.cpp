@@ -33,8 +33,8 @@ bool handle_menu_event(int &select, bool &row, Arcade::CommandType command, int 
 
 void display_menu(Arcade::Core core, Arcade::LibLoader loader)
 {
-    Arcade::Text titleGraph(25, 10, "Graphical libraries");
-    Arcade::Text titleGame(75, 10, "Games");
+    Arcade::Text titleGraph(25, 10, "Graphical libraries", Arcade::BLACK);
+    Arcade::Text titleGame(75, 10, "Games", Arcade::BLACK);
     auto renderer = core.getGraphicLib();
     int i = 0;
     int select = 0;
@@ -43,7 +43,7 @@ void display_menu(Arcade::Core core, Arcade::LibLoader loader)
     auto games = loader.getLibAvailable(Arcade::GAME);
     bool lastVal;
     std::pair<std::string, std::string> libraries;
-    Arcade::Pixel myBox(25, 25, Arcade::RED, 40);
+    Arcade::Pixel myBox(50, 50, Arcade::GREEN, 100);
 
     while (handle_menu_event(select, row, renderer->getInput(), graphics.size(), games.size())) {
         graphics = loader.getLibAvailable(Arcade::GRAPHIC);
@@ -55,16 +55,16 @@ void display_menu(Arcade::Core core, Arcade::LibLoader loader)
         if (lastVal != row && !lastVal)
             libraries.first = graphics[select].second;
         for (auto & graphic : graphics) {
-            Arcade::Text text(25, 20 + (8 * i), graphic.first);
+            Arcade::Text text(25, 20 + (8 * i), graphic.first, Arcade::BLACK);
             if (i++ == select && !row)
-                text.setColor(Arcade::BLUE);
+                text.setColor(Arcade::WHITE);
             renderer->drawText(&text);
         }
         i = 0;
         for (auto & game : games) {
-            Arcade::Text text(75, 20 + (8 * i), game.first);
+            Arcade::Text text(75, 20 + (8 * i), game.first, Arcade::BLACK);
             if (i++ == select && row)
-                text.setColor(Arcade::BLUE);
+                text.setColor(Arcade::WHITE);
             renderer->drawText(&text);
         }
         i = 0;
