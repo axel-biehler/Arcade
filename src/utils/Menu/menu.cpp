@@ -10,18 +10,18 @@
 
 bool handle_menu_event(int &select, bool &row, Arcade::CommandType command, int lenGraph, int lenGames)
 {
-    if (command == Arcade::NONE)
+    if (command == Arcade::NO_EVENT)
         return true;
-    else if (command == Arcade::ESCAPE)
+    else if (command == Arcade::ESC || command == Arcade::CLOSE_WINDOW)
         return false;
     int selectLen = row ? lenGames : lenGraph;
-    if (command == Arcade::KEYDOWN && select <= selectLen - 2) {
+    if (command == Arcade::DOWN && select <= selectLen - 2) {
         select++;
-    } else if (command == Arcade::KEYDOWN && select >= selectLen - 1) {
+    } else if (command == Arcade::DOWN && select >= selectLen - 1) {
         select = 0;
-    } else if (command == Arcade::KEYUP && select > 0) {
+    } else if (command == Arcade::UP && select > 0) {
         select--;
-    } else if (command == Arcade::KEYUP && select <= 0) {
+    } else if (command == Arcade::UP && select <= 0) {
         select = selectLen - 1;
     } else if (command == Arcade::ENTER && !row) {
         row = !row;

@@ -92,27 +92,25 @@ Arcade::CommandType Arcade::libSFML::getInput()
     event.type = sf::Event::MouseLeft;
 
     _window.pollEvent((sf::Event &)event);
-    if (event.type == sf::Event::Resized)
-        return Arcade::RESIZE;
     if (event.type == sf::Event::Closed) {
-        return Arcade::ESCAPE;
+        return Arcade::CLOSE_WINDOW;
     }
     if (event.type == sf::Event::KeyReleased) {
         switch (event.key.code) {
             case sf::Keyboard::Space:
                 return Arcade::SPACE;
             case sf::Keyboard::Up:
-                return Arcade::KEYUP;
+                return Arcade::UP;
             case sf::Keyboard::Down:
-                return Arcade::KEYDOWN;
+                return Arcade::DOWN;
             case sf::Keyboard::Escape:
-                return Arcade::ESCAPE;
+                return Arcade::ESC;
             case sf::Keyboard::Enter:
                 return Arcade::ENTER;
             default:
-                return Arcade::NONE;
+                return Arcade::NO_EVENT;
         }
     } else {
-        return Arcade::NONE;
+        return Arcade::NO_EVENT;
     }
 }
