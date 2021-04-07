@@ -2,4 +2,6 @@
 CMakeLists.txt
 cmake-build-debug
 .vscode/
-lib/*
+lib/aracde_sfml.so
+lib/arcade_sdl2.so
+lib/arcade_ncurses.so

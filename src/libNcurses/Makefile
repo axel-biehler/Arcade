@@ -6,6 +6,8 @@
 ##
 
 SRC		=	libNcurses.cpp		\
+			../utils/Text/Text.cpp			\
+			../utils/Pixel/Pixel.cpp		\
 
 OBJ		=	$(SRC:.cpp=.o)
 
