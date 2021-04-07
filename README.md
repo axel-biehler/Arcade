@@ -13,7 +13,7 @@ Le projet Arcade à pour but de créer une borne d'arcade avec au moins deux jeu
 ## Utilisation:
 ```
 >$ make
->$ ./arcade dynamic_librairy.so
+>$ ./arcade lib/dynamic_librairy.so
 ```
 
 # Documentation
@@ -30,9 +30,20 @@ Le projet Arcade à pour but de créer une borne d'arcade avec au moins deux jeu
 - ### void myRefresh();
   Cette fonction permet de rafraîchir les données et les mettre à jour sur l'écran.
 
-- ### virtual Arcade::CommandType getInput()
+- ### Arcade::CommandType getInput()
   Cette fonction permet de récupérer les données saisies sur le clavier par l'utilisateur et retourne un Arcade::CommandeType.
 
 ## IGame interface:
-- ### virtual void draw()
-  Permet de dessiner les changement éffectué durant la boucle de jeu.
+- ### void draw()
+  Permet de dessiner les changement effectué durant la boucle de jeu.
+- ### void getInput()
+  Permet de recevoir les input clavier du joueur.
+
+- ### void update(double timeElapsed)
+  Permet de faire la mise à jour des valeurs entre chaque boucle de jeux et prend en paramètre un double indiquant le temps écoulé en un tour de boucle.
+
+- ### void remake()
+  Permet de relancer le jeux en commencant une nouvelle partie.
+
+## Contact:
+  nicolas.schneider@epitech.eu
