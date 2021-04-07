@@ -9,9 +9,9 @@
 #define B_OOP_400_STG_4_1_ARCADE_NICOLAS_SCHNEIDER_IMENU_HPP
 
 #include <vector>
-#include "../../utils/Text/Text.hpp"
-#include "../../utils/Pixel/Pixel.hpp"
-#include "../../LibGraphic/interface/IGraphic.hpp"
+#include "../src/utils/Text/Text.hpp"
+#include "../src/utils/Pixel/Pixel.hpp"
+#include "IGraphic.hpp"
 
 namespace Arcade {
     class IMenu {

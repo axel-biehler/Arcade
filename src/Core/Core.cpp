@@ -36,3 +36,29 @@ Arcade::IGame *Arcade::Core::getGameLib() const
 {
     return _gameLib;
 }
+/*
+static void delete_lib(Arcade::IGraphic *toDelete)
+{
+    if (dynamic_cast<Arcade::libSFML *>(toDelete))
+        delete (Arcade::libSFML *)toDelete;
+    else if (dynamic_cast<Arcade::LibSDL *>(toDelete))
+        delete (Arcade::LibSDL *)toDelete;
+}
+*/
+void Arcade::Core::switchLib(Arcade::LibLoader &loader, Arcade::CommandType event)
+{
+    Arcade::CommandType libEvent[] = {
+        Arcade::NUM0,
+        Arcade::NUM1,
+        Arcade::NUM2,
+        Arcade::NUM3
+    };
+
+    if (std::find(libEvent, libEvent + 4, event) == libEvent + 4)
+        return;
+    if (event == Arcade::CommandType::NUM0) {
+        delete _graphicLib;
+       // delete_lib(_graphicLib);
+        this->setGraphicLib(loader.loadNextGraphics());
+    }
+}

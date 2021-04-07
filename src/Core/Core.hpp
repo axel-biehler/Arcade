@@ -26,6 +26,7 @@ namespace Arcade {
         void setGameLib(IGame *lib);
         IGraphic *getGraphicLib() const;
         IGame *getGameLib() const;
+        void switchLib(LibLoader &loader, CommandType event);
     private:
         IGraphic *_graphicLib;
         IGame *_gameLib;

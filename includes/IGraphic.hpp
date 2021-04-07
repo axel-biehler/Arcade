@@ -21,6 +21,7 @@ namespace Arcade {
         virtual void myClear() = 0;
         virtual void myRefresh() = 0;
         virtual Arcade::CommandType getInput() = 0;
+        virtual ~IGraphic() {}
     };
 }
 

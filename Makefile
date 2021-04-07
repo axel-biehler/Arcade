@@ -18,6 +18,7 @@ games:
 
 core:
 	make -C src/Core
+	make -C src/Menu
 
 clean:
 	cd src/libNcurses && make clean
@@ -26,6 +27,7 @@ clean:
 	cd src/Pacman && make clean
 	cd src/Snake && make clean
 	cd src/Core && make clean
+	cd src/Menu && make clean
 
 fclean:
 	cd src/libNcurses && make fclean
@@ -34,6 +36,7 @@ fclean:
 	cd src/Pacman && make fclean
 	cd src/Snake && make fclean
 	cd src/Core && make fclean
+	cd src/Menu && make fclean
 
 re:	fclean all
 

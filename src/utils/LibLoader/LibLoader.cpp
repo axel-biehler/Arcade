@@ -8,12 +8,20 @@
 #include <experimental/filesystem>
 #include "LibLoader.hpp"
 
-Arcade::LibLoader::LibLoader()
+Arcade::LibLoader::LibLoader(): _loadedMenu(nullptr),
+                                _loadedGraphics(nullptr),
+                                _loadedGame(nullptr)
 {
 }
 
 Arcade::LibLoader::~LibLoader()
 {
+    if (_loadedMenu)
+        dlclose(_loadedMenu);
+    if (_loadedGraphics)
+        dlclose(_loadedGraphics);
+    if (_loadedGame)
+        dlclose(_loadedGame);
 }
 
 std::vector<std::pair<std::string, std::string>> Arcade::LibLoader::getLibAvailable(Arcade::LibType type)
@@ -33,7 +41,7 @@ std::vector<std::pair<std::string, std::string>> Arcade::LibLoader::getLibAvaila
                 pathName.first = name.substr(0, name.find('.'));
                 libs.push_back(pathName);
             }
-            //dlclose(sharedLib);
+            dlclose(sharedLib);
         }
     }
     return libs;
@@ -47,4 +55,24 @@ std::string Arcade::LibLoader::getNameLib(std::string &fp)
         return name;
     }
     return std::string();
+}
+
+Arcade::IGraphic *Arcade::LibLoader::loadNextGraphics()
+{
+    std::string toLoad;
+    std::vector<std::pair<std::string, std::string>> libs = getLibAvailable(Arcade::GRAPHIC);
+    std::string name = _loadedGraphicsName;
+    auto it = std::find_if(libs.begin(), libs.end(),
+                        [name](const std::pair<std::string, std::string>& element){ return element.second == name; });
+
+    if (it - libs.begin() == libs.size())
+        toLoad = libs[0].second;
+    else
+        toLoad = libs[it - libs.begin() + 1].second;
+    return this->loadSharedLib<IGraphic>(toLoad, GRAPHIC);
+}
+
+Arcade::IGame *Arcade::LibLoader::loadNextGame()
+{
+    return nullptr;
 }

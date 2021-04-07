@@ -19,7 +19,7 @@ namespace Arcade {
     class libSFML: public IGraphic {
     public:
         libSFML();
-        ~libSFML();
+        ~libSFML() override;
         void drawPixel(Pixel *pixel) override;
         void drawText(Text *text) override;
         void myClear() override;
