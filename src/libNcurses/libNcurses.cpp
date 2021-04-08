@@ -106,12 +106,14 @@ Arcade::libNcurses::~libNcurses()
 void Arcade::libNcurses::drawPixel(Pixel *pixel)
 {
     char pix = ' ';
-    int x = COLS * pixel->getXPos() / 100 - 0.5 * pixel->getSize();
-    int y = LINES * pixel->getYPos() / 100 - 0.5 * pixel->getSize();
+    int sizeX = pixel->getSize() * COLS / 100;
+    int sizeY = pixel->getSize() * LINES / 100;
+    int x = COLS * pixel->getXPos() / 100 - 0.5 * sizeX;
+    int y = LINES * pixel->getYPos() / 100 - 0.5 * sizeY;
 
     attron(COLOR_PAIR(translateColor(pixel->getColor(), false)));
-    for (int i = 0; i < pixel->getSize(); i++) {
-        for (int j = 0; j < pixel->getSize(); j++)
+    for (int i = 0; i < sizeY; i++) {
+        for (int j = 0; j < sizeX; j++)
             mvaddch(y + i, x + j, pix);
     }
     attroff(COLOR_PAIR(translateColor(pixel->getColor(), false)));
