@@ -84,7 +84,7 @@ Arcade::libNcurses::libNcurses()
     init_pair(NCT_WHITE, COLOR_WHITE, COLOR_BLACK);
     init_pair(NCT_RED, COLOR_RED, COLOR_BLACK);
     init_pair(NCT_YELLOW, COLOR_YELLOW, COLOR_BLACK);
-    init_pair(NCT_BLACK, COLOR_BLACK, COLOR_BLACK);
+    init_pair(NCT_BLACK, COLOR_BLACK, COLOR_WHITE);
     init_pair(NCT_CYAN, COLOR_CYAN, COLOR_BLACK);
     init_pair(NCT_GREEN, COLOR_GREEN, COLOR_BLACK);
     init_pair(NCT_MAGENTA, COLOR_MAGENTA, COLOR_BLACK);
@@ -100,6 +100,7 @@ Arcade::libNcurses::libNcurses()
 
 Arcade::libNcurses::~libNcurses()
 {
+    endwin();
 }
 
 void Arcade::libNcurses::drawPixel(Pixel *pixel)
