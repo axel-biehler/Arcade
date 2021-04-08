@@ -18,7 +18,7 @@ NAME	=	arcade
 all:	$(NAME)
 
 $(NAME):	$(OBJ)
-	g++ -o $(NAME) -Wall -Wextra -Werror $(OBJ) -ldl -lstdc++fs
+	g++ -g -o $(NAME) -Wall -Wextra -Werror $(OBJ) -ldl -lstdc++fs
 	mv $(NAME) ../../
 
 clean:

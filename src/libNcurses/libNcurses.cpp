@@ -100,6 +100,7 @@ Arcade::libNcurses::libNcurses()
 
 Arcade::libNcurses::~libNcurses()
 {
+    endwin();
 }
 
 void Arcade::libNcurses::drawPixel(Pixel *pixel)
@@ -145,5 +146,4 @@ Arcade::CommandType Arcade::libNcurses::getInput()
         return cmd;
     auto it = NCURSES_key.find(ch);
     return it == NCURSES_key.end() ? Arcade::NO_EVENT : it->second;
-    //return Arcade::CommandType::NO_EVENT;
 }

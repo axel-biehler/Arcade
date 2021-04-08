@@ -26,6 +26,7 @@ $(NAME):	$(OBJ)
 
 clean:
 	rm -f $(OBJ)
+	rm -f *.o
 
 fclean:	clean
 	rm -f ../../lib/$(NAME)

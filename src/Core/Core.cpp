@@ -36,15 +36,7 @@ Arcade::IGame *Arcade::Core::getGameLib() const
 {
     return _gameLib;
 }
-/*
-static void delete_lib(Arcade::IGraphic *toDelete)
-{
-    if (dynamic_cast<Arcade::libSFML *>(toDelete))
-        delete (Arcade::libSFML *)toDelete;
-    else if (dynamic_cast<Arcade::LibSDL *>(toDelete))
-        delete (Arcade::LibSDL *)toDelete;
-}
-*/
+
 void Arcade::Core::switchLib(Arcade::LibLoader &loader, Arcade::CommandType event)
 {
     Arcade::CommandType libEvent[] = {
@@ -58,7 +50,15 @@ void Arcade::Core::switchLib(Arcade::LibLoader &loader, Arcade::CommandType even
         return;
     if (event == Arcade::CommandType::NUM0) {
         delete _graphicLib;
-       // delete_lib(_graphicLib);
-        this->setGraphicLib(loader.loadNextGraphics());
+        this->setGraphicLib(loader.loadNextGraphics(true));
+    } else if (event == Arcade::CommandType::NUM1) {
+        delete _graphicLib;
+        this->setGraphicLib(loader.loadNextGraphics(false));
+    } else if (event == Arcade::CommandType::NUM2) {
+        delete _gameLib;
+        this->setGameLib(loader.loadNextGame(true));
+    } else if (event == Arcade::CommandType::NUM3) {
+        delete _gameLib;
+        this->setGameLib(loader.loadNextGame(false));
     }
 }

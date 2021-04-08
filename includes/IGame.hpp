@@ -15,6 +15,7 @@ namespace Arcade {
         virtual void getEvent() = 0;
         virtual void update(double timeElapsed) = 0;
         virtual void remake() = 0;
+        virtual ~IGame() {};
     };
 }
 

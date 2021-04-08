@@ -57,8 +57,8 @@ namespace Arcade {
         }
         std::vector<std::pair<std::string, std::string>> getLibAvailable(Arcade::LibType);
         std::string getNameLib(std::string &fp);
-        IGraphic *loadNextGraphics();
-        IGame *loadNextGame();
+        IGraphic *loadNextGraphics(bool direction);
+        IGame *loadNextGame(bool direction);
     private:
         void *_loadedMenu;
         void *_loadedGraphics;
