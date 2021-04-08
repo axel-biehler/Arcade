@@ -6,6 +6,7 @@
 */
 
 #include "Core.hpp"
+#include <time.h>
 
 Arcade::Core::Core()
 {
@@ -60,5 +61,31 @@ void Arcade::Core::switchLib(Arcade::LibLoader &loader, Arcade::CommandType even
     } else if (event == Arcade::CommandType::NUM3) {
         delete _gameLib;
         this->setGameLib(loader.loadNextGame(false));
+    }
+}
+
+void Arcade::Core::runGame(LibLoader &loader, std::string &playerName)
+{
+    Arcade::CommandType event;
+    Arcade::CommandType cmd = NO_EVENT;
+    int choices = 0;
+    clock_t start_t;
+    clock_t end_t;
+    double current_time = 0.0f;
+    double dt = 0.0f;
+
+    _gameLib->initPlayerName(playerName);
+    _isRunning = true;
+    while (_isRunning || cmd == Arcade::CommandType::ESC) {
+        start_t = clock();
+        cmd = _gameLib->getEvent(cmd, _graphicLib);
+        _gameLib->update(current_time);
+        if (dt >= double(1.0f / 60.0f)) {
+            _gameLib->draw(_graphicLib);
+            dt = 0.0f;
+        }
+        end_t = clock();
+        current_time = (double)(end_t - start_t) / CLOCKS_PER_SEC;
+        dt += current_time;
     }
 }
