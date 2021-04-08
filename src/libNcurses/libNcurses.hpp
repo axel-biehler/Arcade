@@ -11,6 +11,23 @@
 
 #pragma once
 
+#define NCT_BLUE 1
+#define NCT_WHITE 2
+#define NCT_RED 3
+#define NCT_YELLOW 4
+#define NCT_BLACK 5
+#define NCT_CYAN 6
+#define NCT_GREEN 7
+#define NCT_MAGENTA 8
+#define NCS_BLUE 9
+#define NCS_WHITE 10
+#define NCS_RED 11
+#define NCS_YELLOW 12
+#define NCS_BLACK 13
+#define NCS_CYAN 14
+#define NCS_GREEN 15
+#define NCS_MAGENTA 16
+
 namespace Arcade {
     class libNcurses : public IGraphic
     {
