@@ -17,6 +17,8 @@ namespace Arcade {
         virtual void draw(IGraphic *lib) = 0;
         virtual CommandType getEvent(CommandType cmd, IGraphic *lib) = 0; 
         virtual void update(double timeElapsed) = 0;
+        virtual void remake() = 0;
+        virtual ~IGame() {};
     };
 }
 

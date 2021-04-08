@@ -27,11 +27,11 @@ Arcade::LibLoader::~LibLoader()
 std::vector<std::pair<std::string, std::string>> Arcade::LibLoader::getLibAvailable(Arcade::LibType type)
 {
     std::string name;
-    std::vector<std::pair<std::string, std::string>> libs;
+    std::vector<std::pair<std::string, std::string>> libs = std::vector<std::pair<std::string, std::string>>();
     LibType (*getLibType)();
 
     for (auto& p: std::experimental::filesystem::directory_iterator("./lib")) {
-        void *sharedLib = dlopen(p.path().c_str(), RTLD_LAZY);
+        void *sharedLib = dlopen(p.path().c_str(), RTLD_NOW);
         if (sharedLib) {
             getLibType = reinterpret_cast<LibType (*)()>(dlsym(sharedLib, "getLibType"));
             if (getLibType() == type && p.path().string().find(".so", 0) != std::string::npos) {
@@ -57,22 +57,48 @@ std::string Arcade::LibLoader::getNameLib(std::string &fp)
     return std::string();
 }
 
-Arcade::IGraphic *Arcade::LibLoader::loadNextGraphics()
+Arcade::IGraphic *Arcade::LibLoader::loadNextGraphics(bool direction)
 {
     std::string toLoad;
     std::vector<std::pair<std::string, std::string>> libs = getLibAvailable(Arcade::GRAPHIC);
     std::string name = _loadedGraphicsName;
     auto it = std::find_if(libs.begin(), libs.end(),
-                        [name](const std::pair<std::string, std::string>& element){ return element.second == name; });
+                        [&name](const std::pair<std::string, std::string>& element){ return element.second == name; });
 
-    if (it - libs.begin() == libs.size())
+    if (libs.empty() || it == libs.end()) {
+        std::cout << "Failed to swap lib" << "it = " << it->first << std::endl;
+        std::_Exit(0);
+    }
+    if (it - libs.begin() == libs.size() - 1 && direction)
         toLoad = libs[0].second;
-    else
-        toLoad = libs[it - libs.begin() + 1].second;
-    return this->loadSharedLib<IGraphic>(toLoad, GRAPHIC);
+    else if (direction)
+        toLoad = (*(it + 1)).second;
+    if (it - libs.begin() == 0 && !direction)
+        toLoad = libs[libs.size() - 1].second;
+    else if (!direction)
+        toLoad = (*(it - 1)).second;
+    return loadSharedLib<IGraphic>(toLoad, Arcade::GRAPHIC);
 }
 
-Arcade::IGame *Arcade::LibLoader::loadNextGame()
+Arcade::IGame *Arcade::LibLoader::loadNextGame(bool direction)
 {
-    return nullptr;
+    std::string toLoad;
+    std::vector<std::pair<std::string, std::string>> libs = getLibAvailable(Arcade::GAME);
+    std::string name = _loadedGameName;
+    auto it = std::find_if(libs.begin(), libs.end(),
+                           [&name](const std::pair<std::string, std::string>& element){ return element.second == name; });
+
+    if (libs.empty() || it == libs.end()) {
+        std::cout << "Failed to swap lib" << "it = " << it->first << std::endl;
+        std::_Exit(0);
+    }
+    if (it - libs.begin() == libs.size() - 1 && direction)
+        toLoad = libs[0].second;
+    else if (direction)
+        toLoad = (*(it + 1)).second;
+    if (it - libs.begin() == 0 && !direction)
+        toLoad = libs[libs.size() - 1].second;
+    else if (!direction)
+        toLoad = (*(it - 1)).second;
+    return loadSharedLib<IGame>(toLoad, Arcade::GAME);
 }
