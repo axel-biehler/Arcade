@@ -8,13 +8,15 @@
 #ifndef B_OOP_400_STG_4_1_ARCADE_NICOLAS_SCHNEIDER_IGAME_H
 #define B_OOP_400_STG_4_1_ARCADE_NICOLAS_SCHNEIDER_IGAME_H
 
+#include "IGraphic.hpp"
+
 namespace Arcade {
     class IGame {
     public:
-        virtual void draw() = 0;
-        virtual void getEvent() = 0;
+        virtual void initPlayerName(std::string playerName) = 0;
+        virtual void draw(IGraphic *lib) = 0;
+        virtual CommandType getEvent(CommandType cmd, IGraphic *lib) = 0; 
         virtual void update(double timeElapsed) = 0;
-        virtual void remake() = 0;
     };
 }
 

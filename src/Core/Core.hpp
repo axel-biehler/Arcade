@@ -27,9 +27,11 @@ namespace Arcade {
         IGraphic *getGraphicLib() const;
         IGame *getGameLib() const;
         void switchLib(LibLoader &loader, CommandType event);
+        void runGame(LibLoader &loader, std::string &playerName);
     private:
         IGraphic *_graphicLib;
         IGame *_gameLib;
+        bool _isRunning;
     };
 }
 
