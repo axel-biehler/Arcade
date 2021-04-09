@@ -6,6 +6,7 @@
 */
 
 #include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL.h>
 #include "LibSDL.hpp"
 
 extern "C" Arcade::IGraphic *getLib()
@@ -122,14 +123,13 @@ Arcade::CommandType Arcade::LibSDL::getInput()
 {
     SDL_Event event;
 
-    if (!SDL_PollEvent(&event))
+    if (SDL_PollEvent(&event) == 0)
         return Arcade::NO_EVENT;
     if (event.type == SDL_QUIT)
         return Arcade::ESC;
     if (event.type == SDL_KEYUP) {
         auto it = SDL_key.find(event.key.keysym.sym);
         return it == SDL_key.end() ? Arcade::NO_EVENT : it->second;
-    } else {
+    } else
         return Arcade::NO_EVENT;
-    }
 }

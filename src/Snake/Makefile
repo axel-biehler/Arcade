@@ -5,7 +5,9 @@
 ## Makefile
 ##
 
-SRC		=
+SRC		=	Snake.cpp						\
+			../utils/Text/Text.cpp			\
+			../utils/Pixel/Pixel.cpp		\
 
 OBJ		=	$(SRC:.cpp=.o)
 
@@ -13,17 +15,18 @@ NAME	=	arcade_nibbler.so
 
 all:	$(NAME)
 
-CFLAGS	=		-c -Wall -Werror -Wextra -fpic
+CFLAGS	=		-c -fpic #-Wall -Werror -Wextra
 
 LFLAGS  =		-shared
 
 $(NAME):	$(OBJ)
 	g++ $(CFLAGS) $(SRC)
-	g++ -o $(NAME) $(LFLAGS) $(OBJ)
+	g++ -o $(NAME) $(LFLAGS) *.o
 	mv $(NAME) ../../lib
 
 clean:
 	rm -f $(OBJ)
+	rm -f *.o
 
 fclean:	clean
 	rm -f ../../lib/$(NAME)

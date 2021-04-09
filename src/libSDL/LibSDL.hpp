@@ -85,6 +85,7 @@ namespace Arcade {
         {SDLK_UP, UP},
         {SDLK_DOWN, DOWN},
         {SDLK_KP_ENTER, ENTER},
+        {13, ENTER},
         {SDLK_SPACE, SPACE},
         {SDLK_BACKSPACE, BACKSPACE},
         {SDLK_ESCAPE, ESC},

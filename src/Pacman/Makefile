@@ -13,7 +13,7 @@ NAME	=	arcade_pacman.so
 
 all:	$(NAME)
 
-CFLAGS	=		-c -Wall -Werror -Wextra -fpic
+CFLAGS	=		-c -fpic #-Wall -Werror -Wextra
 
 LFLAGS  =		-shared
 

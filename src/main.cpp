@@ -39,6 +39,7 @@ int main(int ac, char **av)
 {
     Arcade::Core core;
     Arcade::LibLoader loader;
+    std::string name = "FlexyMax";
 
     if (ac < 2) {
         print_usage();
@@ -46,11 +47,14 @@ int main(int ac, char **av)
     }
     auto *graphicLib = loader.loadSharedLib<Arcade::IGraphic>(av[1], Arcade::GRAPHIC);
     auto *menu = loader.loadSharedLib<Arcade::IMenu>("lib/arcade_menu.so", Arcade::MENU);
+    auto *game = loader.loadSharedLib<Arcade::IGame>("lib/arcade_nibbler.so", Arcade::GAME);
     if (!graphicLib || !menu) {
         std::cout << "Loading base library failed" << std::endl;
         return 84;
     }
     core.setGraphicLib(graphicLib);
+    core.setGameLib(game);
     menuLoop(core, loader, menu);
+    core.runGame(loader, name);
     std::_Exit(0);
 }
