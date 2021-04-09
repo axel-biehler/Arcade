@@ -15,7 +15,7 @@ NAME	=	arcade_nibbler.so
 
 all:	$(NAME)
 
-CFLAGS	=		-c -fpic #-Wall -Werror -Wextra
+CFLAGS	=		-c -fPIC #-Wall -Werror -Wextra
 
 LFLAGS  =		-shared
 

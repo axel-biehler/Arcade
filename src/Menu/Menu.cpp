@@ -106,5 +106,6 @@ void Arcade::Menu::displayBackground(IGraphic *libGraph)
 }
 std::string Arcade::Menu::getPlayerName(Arcade::IGraphic *libGraph)
 {
+    (void)libGraph;
     return std::string();
 }
