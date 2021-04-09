@@ -5,7 +5,9 @@
 ## Makefile
 ##
 
-SRC		=
+SRC		=	src/Pacman.cpp				\
+			src/Character.cpp			\
+			src/Ghost.cpp
 
 OBJ		=	$(SRC:.cpp=.o)
 
@@ -13,7 +15,7 @@ NAME	=	arcade_pacman.so
 
 all:	$(NAME)
 
-CFLAGS	=		-c -fpic #-Wall -Werror -Wextra
+CFLAGS	=		-c -Wall -Wextra -fPIC
 
 LFLAGS  =		-shared
 

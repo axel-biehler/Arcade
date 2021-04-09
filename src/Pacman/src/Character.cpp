@@ -7,43 +7,54 @@
 
 #include "Character.hpp"
 
-Character::Character()
+PacmanGame::Character::Character()
 {
-    _pos = {17, 19};
+    _pos[0] = 17;
+    _pos[1] = 19;
     _lifePoint = 3;
     _dir = NONE;
 }
 
-Character::~Character()
+PacmanGame::Character::~Character()
 {
 }
 
-std::vector<int> Character::getPos() const
+int PacmanGame::Character::getPosX() const
 {
-    return _pos;
+    return _pos[0];
 }
 
-void Character::setPos(std::vector<int> pos)
+void PacmanGame::Character::setPosX(int pos[2])
 {
-    _pos = pos;
+    _pos[0] = pos[0];
 }
 
-int Character::getLifePoint() const
+int PacmanGame::Character::getPosY() const
+{
+    return _pos[1];
+}
+
+void PacmanGame::Character::setPosY(int pos[2])
+{
+    _pos[1] = _pos[1];
+}
+
+int PacmanGame::Character::getLifePoint() const
 {
     return _lifePoint;
 }
 
-void Character::setLifePoint(int lifepoint)
+void PacmanGame::Character::setLifePoint(int lifepoint)
 {
     _lifePoint = lifepoint;
 }
 
-dir Character::getDir() const
+PacmanGame::dir PacmanGame::Character::getDir() const
 {
     return _dir;
 }
 
-void Character::setDir(dir direction)
+void PacmanGame::Character::setDir(dir direction)
 {
     _dir = direction;
 }

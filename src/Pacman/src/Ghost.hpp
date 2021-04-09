@@ -8,13 +8,28 @@
 #ifndef GHOST_HPP_
 #define GHOST_HPP_
 
-class Ghost {
-    public:
-        Ghost();
-        ~Ghost();
+#include "../../../includes/PersonnalType.hpp"
 
-    protected:
-    private:
-};
+namespace PacmanGame {
+    class Ghost {
+        public:
+            Ghost(Arcade::Color color);
+            ~Ghost();
+
+            void setColor(Arcade::Color color);
+            Arcade::Color getColor() const;
+            void setPosX(int pos);
+            int getPosX() const;
+            void setPosY(int pos);
+            int getPosY() const;
+            void setIsAffraid(bool b);
+            bool getIsAffraid() const;
+
+        private:
+            int _pos[2];
+            Arcade::Color _color;
+            bool _isAffraid;
+    };
+}
 
 #endif /* !GHOST_HPP_ */

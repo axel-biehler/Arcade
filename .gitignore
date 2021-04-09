@@ -5,3 +5,4 @@ cmake-build-debug
 lib/aracde_sfml.so
 lib/arcade_sdl2.so
 lib/arcade_ncurses.so
+test/

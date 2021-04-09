@@ -10,29 +10,30 @@
 
 #include <string>
 #include <vector>
-#include "IGame.hpp"
+#include "../../../includes/IGame.hpp"
 #include "Character.hpp"
 #include "Ghost.hpp"
-#include "Core.hpp"
 
 namespace Arcade {
     class Pacman : public IGame{
         public:
-            Pacman(Core core);
+            Pacman();
             virtual ~Pacman();
 
-            void draw() override;
-            void getEvent() override;
+            void draw(IGraphic *lib) override;
+            CommandType getEvent(CommandType cmd, IGraphic *lib) override;
             void update(double timeElapsed) override;
             void remake() override;
+            void initPlayerName(std::string playerName) override;
             std::vector<std::string> getMap(const std::string &path);
-            std::vector<Ghost> createGhost();
+            std::vector<PacmanGame::Ghost> createGhost();
+            void drawGhost(Arcade::IGraphic *lib);
 
         private:
             std::vector<std::string> _map;
-            std::vector<Ghost> _ghosts;
-            Character _pacman;
-            Core _core;
+            std::vector<PacmanGame::Ghost> _ghosts;
+            PacmanGame::Character _pacman;
+            std::string _name;
     };
 }
 

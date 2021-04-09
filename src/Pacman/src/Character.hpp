@@ -10,30 +10,35 @@
 
 #include <vector>
 
-enum dir {
-    LEFT,
-    RIGHT,
-    DOWN,
-    UP,
-    NONE
-};
+namespace PacmanGame {
 
-class Character {
-    public:
-        Character();
-        ~Character();
+    enum dir {
+        LEFT,
+        RIGHT,
+        DOWN,
+        UP,
+        NONE
+    };
 
-        std::vector<int> getPos() const;
-        void setPos(std::vector<int> pos);
-        int getLifePoint() const;
-        void setLifePoint(int lifepoint);
-        dir getDir() const;
-        void setDir(dir direction);
+    class Character {
+        public:
+            Character();
+            ~Character();
 
-    private:
-        std::vector<int> _pos;
-        int _lifePoint;
-        dir _dir;
-};
+            int getPosX() const;
+            int getPosY() const;
+            void setPosX(int pos[2]);
+            void setPosY(int pos[2]);
+            int getLifePoint() const;
+            void setLifePoint(int lifepoint);
+            dir getDir() const;
+            void setDir(dir direction);
+
+        private:
+            int _pos[2];
+            int _lifePoint;
+            dir _dir;
+    };
+}
 
 #endif /* !CHARACTER_HPP_ */
