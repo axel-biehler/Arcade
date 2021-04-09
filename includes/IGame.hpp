@@ -15,7 +15,7 @@ namespace Arcade {
     public:
         virtual void initPlayerName(std::string playerName) = 0;
         virtual void draw(IGraphic *lib) = 0;
-        virtual CommandType getEvent(CommandType cmd, IGraphic *lib) = 0; 
+        virtual void getEvent(CommandType cmd, IGraphic *lib) = 0; 
         virtual void update(double timeElapsed) = 0;
         virtual ~IGame() {};
     };

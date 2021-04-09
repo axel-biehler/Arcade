@@ -40,9 +40,9 @@ void Arcade::Snake::draw(IGraphic *lib)
     lib->drawPixel(&myRedBox);
 }
 
-Arcade::CommandType Arcade::Snake::getEvent(CommandType cmd, IGraphic *lib)
+void Arcade::Snake::getEvent(CommandType cmd, IGraphic *lib)
 {
-    return NO_EVENT;
+
 }
 
 void Arcade::Snake::update(double timeElapsed)

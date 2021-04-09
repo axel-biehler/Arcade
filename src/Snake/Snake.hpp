@@ -21,7 +21,7 @@ namespace Arcade {
 
         void initPlayerName(std::string playerName) override;
         void draw(IGraphic *lib) override;
-        CommandType getEvent(CommandType cmd, IGraphic *lib) override;
+        void getEvent(CommandType cmd, IGraphic *lib) override;
         void update(double timeElapsed) override;
 
         private:

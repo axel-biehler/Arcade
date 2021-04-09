@@ -79,7 +79,8 @@ void Arcade::Core::runGame(LibLoader &loader, std::string &playerName)
     while (_isRunning || cmd == Arcade::CommandType::ESC) {
         start_t = clock();
         _graphicLib->myClear();
-        cmd = _gameLib->getEvent(cmd, _graphicLib);
+        cmd = _graphicLib->getInput();
+        _gameLib->getEvent(cmd, _graphicLib);
         _gameLib->draw(_graphicLib);
         if (dt >= double(1.0f / 60.0f)) {
             _gameLib->update(current_time);
