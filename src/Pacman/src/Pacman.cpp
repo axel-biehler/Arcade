@@ -10,11 +10,22 @@
 #include "Pacman.hpp"
 #include "../../../includes/IGraphic.hpp"
 
+extern "C" Arcade::IGame *getLib()
+{
+    return new Arcade::Pacman();
+}
+
+extern "C" Arcade::LibType getLibType()
+{
+    return (Arcade::LibType)Arcade::GAME;
+}
+
 Arcade::Pacman::Pacman()
 {
     _map = getMap("assets/map.txt");
     createGhost();
     _map[_pacman.getPosY()][_pacman.getPosX()] = 'P';
+    _time = 0.0f;
 }
 
 Arcade::Pacman::~Pacman()
@@ -38,7 +49,8 @@ std::vector<std::string> Arcade::Pacman::getMap(const std::string &path)
 void Arcade::Pacman::drawGhost(Arcade::IGraphic *lib)
 {
     for (auto i = _ghosts.begin(); i != _ghosts.end(); i++) {
-        
+        Pixel pix = {(*i).getPosX(), (*i).getPosY(), (*i).getColor(), 2};
+        lib->drawPixel(&pix);
     }
 }
 
@@ -94,20 +106,20 @@ void Arcade::Pacman::remake()
 
 void Arcade::Pacman::update(double timeElapsed)
 {
-    if (timeElapsed >= double(1 / 60)) {
+    if (_time >= double(1 / 60)) {
         switch (_pacman.getDir())
         {
             case PacmanGame::dir::LEFT:
-                
+                _pacman.setDir(PacmanGame::dir::LEFT);
                 break;
             case PacmanGame::dir::RIGHT:
-
+                _pacman.setDir(PacmanGame::dir::RIGHT);
                 break;
             case PacmanGame::dir::DOWN:
-
+                _pacman.setDir(PacmanGame::dir::DOWN);
                 break;
             case PacmanGame::dir::UP:
-
+                _pacman.setDir(PacmanGame::dir::UP);
                 break;
         }
     }

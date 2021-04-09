@@ -21,11 +21,12 @@ LFLAGS  =		-shared
 
 $(NAME):	$(OBJ)
 	g++ $(CFLAGS) $(SRC)
-	g++ -o $(NAME) $(LFLAGS) $(OBJ)
+	g++ -o $(NAME) $(LFLAGS) *.o
 	mv $(NAME) ../../lib
 
 clean:
 	rm -f $(OBJ)
+	rm *.o
 
 fclean:	clean
 	rm -f ../../lib/$(NAME)

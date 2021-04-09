@@ -34,6 +34,7 @@ namespace Arcade {
             std::vector<PacmanGame::Ghost> _ghosts;
             PacmanGame::Character _pacman;
             std::string _name;
+            double _time;
     };
 }
 
