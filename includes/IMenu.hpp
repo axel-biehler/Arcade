@@ -21,9 +21,11 @@ namespace Arcade {
         virtual void getEvent(Arcade::CommandType event, Arcade::IGraphic *lib) = 0;
         virtual std::string getLibGraph() const = 0;
         virtual std::string getLibGame() const = 0;
+        virtual void setPlayerName(const std::string &name) = 0;
+        virtual std::string getPlayerName() const = 0;
         virtual void initBackground(IGraphic *libGraph) = 0;
         virtual void displayBackground(IGraphic *libGraph) = 0;
-        virtual std::string getPlayerName(IGraphic *libGraph) = 0;
+        virtual void displayPlayerName(IGraphic *libGraph) = 0;
     };
 }
 

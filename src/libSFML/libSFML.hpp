@@ -74,7 +74,7 @@ namespace Arcade {
         {sf::Keyboard::Down,   DOWN},
         {sf::Keyboard::Enter,  ENTER},
         {sf::Keyboard::Space,  SPACE},
-        {sf::Keyboard::Delete, BACKSPACE},
+        {sf::Keyboard::BackSpace, BACKSPACE},
         {sf::Keyboard::Escape, ESC},
         {sf::Keyboard::F1,     F1},
         {sf::Keyboard::F2,     F2},

@@ -10,12 +10,14 @@
 
 #include <string>
 #include <vector>
+#include <map>
 #include "../../includes/IGraphic.hpp"
 #include "../../includes/IGame.hpp"
 #include "../../includes/PersonnalType.hpp"
 #include "../utils/LibLoader/LibLoader.hpp"
 #include "../utils/Text/Text.hpp"
 #include "../utils/Pixel/Pixel.hpp"
+#include "../../includes/IMenu.hpp"
 
 namespace Arcade {
     class Core {
@@ -28,10 +30,50 @@ namespace Arcade {
         IGame *getGameLib() const;
         void switchLib(LibLoader &loader, CommandType event);
         void runGame(LibLoader &loader, std::string &playerName);
+        std::string playerNameLoop(Arcade::LibLoader &loader, Arcade::IMenu *menu);
     private:
         IGraphic *_graphicLib;
         IGame *_gameLib;
         bool _isRunning;
+        std::map<CommandType, int> Core_KEY {
+            {A, 'a'},
+            {B, 'b'},
+            {C, 'c'},
+            {D, 'd'},
+            {E, 'e'},
+            {F, 'f'},
+            {G, 'g'},
+            {H, 'h'},
+            {I, 'i'},
+            {J, 'j'},
+            {K, 'k'},
+            {L, 'l'},
+            {M, 'm'},
+            {N, 'n'},
+            {O, 'o'},
+            {P, 'p'},
+            {Q, 'q'},
+            {R, 'r'},
+            {S, 's'},
+            {T, 't'},
+            {U, 'u'},
+            {V, 'v'},
+            {W, 'w'},
+            {X, 'x'},
+            {Y, 'y'},
+            {Z, 'z'},
+            {NUM0, '0'},
+            {NUM1, '1'},
+            {NUM2, '2'},
+            {NUM3, '3'},
+            {NUM4, '4'},
+            {NUM5, '5'},
+            {NUM6, '6'},
+            {NUM7, '7'},
+            {NUM8, '8'},
+            {NUM9, '9'},
+            {SPACE, ' '},
+        };
     };
 }
 

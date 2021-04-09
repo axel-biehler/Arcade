@@ -15,38 +15,34 @@ static void print_usage()
     std::cout << "Usage:\n\t./arcade [path to graphic lib]\n" << "Example:\n\t./arcade lib/arcade_ncurses.so\n";
 }
 
-static void menuLoop(Arcade::Core &core, Arcade::LibLoader loader, Arcade::IMenu *menu)
+static std::string menuLoop(Arcade::Core &core, Arcade::LibLoader loader, Arcade::IMenu *menu)
 {
-    bool running = true;
-    Arcade::CommandType event;
+    Arcade::CommandType event = Arcade::NO_EVENT;
     int choices = 0;
 
     menu->initLibAvailable(loader.getLibAvailable(Arcade::GAME), loader.getLibAvailable(Arcade::GRAPHIC));
-    while (running && choices < 2) {
+    while (event != Arcade::ESC && event != Arcade::CLOSE_WINDOW && choices < 2) {
         event = core.getGraphicLib()->getInput();
         menu->getEvent(event, core.getGraphicLib());
-
-        if (event == Arcade::ESC || event == Arcade::CLOSE_WINDOW)
-            running = false;
         choices += event == Arcade::ENTER ? 1 : 0;
         core.switchLib(loader, event);
         menu->displayBackground(core.getGraphicLib());
         menu->displayText(core.getGraphicLib());
     }
     if (choices < 2)
-        return;
-    std::cout << menu->getLibGraph() << std::endl;
-    std::cout << menu->getLibGame() << std::endl;
+        return "";
+    std::string name = core.playerNameLoop(loader, menu);
     delete core.getGraphicLib();
     core.setGraphicLib(loader.loadSharedLib<Arcade::IGraphic>(menu->getLibGraph(), Arcade::GRAPHIC));
     core.setGameLib(loader.loadSharedLib<Arcade::IGame>(menu->getLibGame(), Arcade::GAME));
+    return name;
 }
 
 int main(int ac, char **av)
 {
     Arcade::Core core;
     Arcade::LibLoader loader;
-    std::string name = "FlexyMax";
+    std::string name = "Player";
 
     if (ac < 2) {
         print_usage();
@@ -59,7 +55,7 @@ int main(int ac, char **av)
         return 84;
     }
     core.setGraphicLib(graphicLib);
-    menuLoop(core, loader, menu);
+    name = menuLoop(core, loader, menu);
     if (core.getGameLib())
         core.runGame(loader, name);
     std::_Exit(0);

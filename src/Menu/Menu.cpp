@@ -19,7 +19,7 @@ extern "C" Arcade::LibType getLibType()
     return (Arcade::LibType)Arcade::MENU;
 }
 
-Arcade::Menu::Menu(): _gameChoice(""), _graphChoice(""), _cursor(0), _row(false)
+Arcade::Menu::Menu(): _gameChoice(""), _graphChoice(""), _playerName(""), _cursor(0), _row(false)
 {
 }
 
@@ -35,6 +35,16 @@ std::string Arcade::Menu::getLibGraph() const
 std::string Arcade::Menu::getLibGame() const
 {
     return _gameChoice;
+}
+
+void Arcade::Menu::setPlayerName(const std::string &name)
+{
+    _playerName = name;
+}
+
+std::string Arcade::Menu::getPlayerName() const
+{
+    return _playerName;
 }
 
 void Arcade::Menu::initLibAvailable(std::vector<std::pair<std::string, std::string>> libGame, std::vector<std::pair<std::string, std::string>> libGraph)
@@ -104,8 +114,15 @@ void Arcade::Menu::displayBackground(IGraphic *libGraph)
     libGraph->drawPixel(&myBox);
     libGraph->drawPixel(&myRedBox);
 }
-std::string Arcade::Menu::getPlayerName(Arcade::IGraphic *libGraph)
+
+void Arcade::Menu::displayPlayerName(Arcade::IGraphic *libGraph)
 {
-    (void)libGraph;
-    return std::string();
+    Arcade::Text titleGraph(50, 20, "Enter player name", Arcade::BLACK);
+    Arcade::Text titleGame(50, 30, "Finish with ENTER", Arcade::BLACK);
+    Arcade::Text playerName(50, 50, _playerName, Arcade::BLACK);
+
+    libGraph->drawText(&titleGraph);
+    libGraph->drawText(&titleGame);
+    libGraph->drawText(&playerName);
+    libGraph->myRefresh();
 }

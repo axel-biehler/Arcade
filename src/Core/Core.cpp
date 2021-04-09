@@ -92,3 +92,21 @@ void Arcade::Core::runGame(LibLoader &loader, std::string &playerName)
         dt += current_time;
     }
 }
+
+std::string Arcade::Core::playerNameLoop(Arcade::LibLoader &loader, Arcade::IMenu *menu)
+{
+    Arcade::CommandType event = Arcade::NO_EVENT;
+    std::string name;
+
+    while (event != Arcade::ESC && event != Arcade::ENTER && event != Arcade::CLOSE_WINDOW) {
+        event = getGraphicLib()->getInput();
+        menu->displayBackground(getGraphicLib());
+        if (Core_KEY.find(event) != Core_KEY.end())
+            name.push_back(Core_KEY.find(event)->second);
+        else if (event == Arcade::BACKSPACE)
+            name.pop_back();
+        menu->setPlayerName(name);
+        menu->displayPlayerName(getGraphicLib());
+    }
+    return name;
+}
