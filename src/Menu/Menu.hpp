@@ -18,12 +18,16 @@ namespace Arcade {
         void initLibAvailable(std::vector<std::pair<std::string, std::string>> libGame, std::vector<std::pair<std::string, std::string>> libGraph) override;
         void displayText(IGraphic *lib) override;
         void getEvent(Arcade::CommandType event, Arcade::IGraphic *lib) override;
-        std::string getLib(std::vector<std::pair<std::string, std::string>> libGame) override;
+        std::string getLibGraph() const override;
+        std::string getLibGame() const override;
         void initBackground(IGraphic *libGraph) override;
         void displayBackground(IGraphic *libGraph) override;
+        std::string getPlayerName(IGraphic *libGraph) override;
     private:
         std::vector<std::pair<std::string, std::string>> _libGames;
         std::vector<std::pair<std::string, std::string>> _libGraphics;
+        std::string _gameChoice;
+        std::string _graphChoice;
         int _cursor;
         bool _row;
     };

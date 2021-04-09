@@ -33,6 +33,13 @@ static void menuLoop(Arcade::Core &core, Arcade::LibLoader loader, Arcade::IMenu
         menu->displayBackground(core.getGraphicLib());
         menu->displayText(core.getGraphicLib());
     }
+    if (choices < 2)
+        return;
+    std::cout << menu->getLibGraph() << std::endl;
+    std::cout << menu->getLibGame() << std::endl;
+    delete core.getGraphicLib();
+    core.setGraphicLib(loader.loadSharedLib<Arcade::IGraphic>(menu->getLibGraph(), Arcade::GRAPHIC));
+    core.setGameLib(loader.loadSharedLib<Arcade::IGame>(menu->getLibGame(), Arcade::GAME));
 }
 
 int main(int ac, char **av)
@@ -47,14 +54,13 @@ int main(int ac, char **av)
     }
     auto *graphicLib = loader.loadSharedLib<Arcade::IGraphic>(av[1], Arcade::GRAPHIC);
     auto *menu = loader.loadSharedLib<Arcade::IMenu>("lib/arcade_menu.so", Arcade::MENU);
-    auto *game = loader.loadSharedLib<Arcade::IGame>("lib/arcade_nibbler.so", Arcade::GAME);
     if (!graphicLib || !menu) {
         std::cout << "Loading base library failed" << std::endl;
         return 84;
     }
     core.setGraphicLib(graphicLib);
-    core.setGameLib(game);
     menuLoop(core, loader, menu);
-    core.runGame(loader, name);
+    if (core.getGameLib())
+        core.runGame(loader, name);
     std::_Exit(0);
 }

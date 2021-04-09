@@ -19,12 +19,22 @@ extern "C" Arcade::LibType getLibType()
     return (Arcade::LibType)Arcade::MENU;
 }
 
-Arcade::Menu::Menu(): _cursor(0), _row(false)
+Arcade::Menu::Menu(): _gameChoice(""), _graphChoice(""), _cursor(0), _row(false)
 {
 }
 
 Arcade::Menu::~Menu()
 {
+}
+
+std::string Arcade::Menu::getLibGraph() const
+{
+    return _graphChoice;
+}
+
+std::string Arcade::Menu::getLibGame() const
+{
+    return _gameChoice;
 }
 
 void Arcade::Menu::initLibAvailable(std::vector<std::pair<std::string, std::string>> libGame, std::vector<std::pair<std::string, std::string>> libGraph)
@@ -70,17 +80,14 @@ void Arcade::Menu::getEvent(Arcade::CommandType event, Arcade::IGraphic *lib)
     } else if (event == Arcade::UP && _cursor <= 0) {
         _cursor = selectLen - 1;
     } else if (event == Arcade::ENTER && !_row) {
+        _graphChoice = _libGraphics[_cursor].second;
+        _cursor = 0;
         _row = !_row;
     } else if (event == Arcade::ENTER && _row) {
+        _gameChoice = _libGames[_cursor].second;
         _row = false;
     }
     (void)lib;
-}
-
-std::string Arcade::Menu::getLib(std::vector<std::pair<std::string, std::string>> libGame)
-{
-    (void)libGame;
-    return std::string();
 }
 
 void Arcade::Menu::initBackground(IGraphic *libGraph)
@@ -96,4 +103,8 @@ void Arcade::Menu::displayBackground(IGraphic *libGraph)
     libGraph->myClear();
     libGraph->drawPixel(&myBox);
     libGraph->drawPixel(&myRedBox);
+}
+std::string Arcade::Menu::getPlayerName(Arcade::IGraphic *libGraph)
+{
+    return std::string();
 }

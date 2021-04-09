@@ -63,7 +63,7 @@ Arcade::IGraphic *Arcade::LibLoader::loadNextGraphics(bool direction)
     std::vector<std::pair<std::string, std::string>> libs = getLibAvailable(Arcade::GRAPHIC);
     std::string name = _loadedGraphicsName;
     auto it = std::find_if(libs.begin(), libs.end(),
-                        [&name](const std::pair<std::string, std::string>& element){ return element.second == name; });
+                        [&name](const std::pair<std::string, std::string>& element){ return element.second.find(name) != std::string::npos; });
 
     if (libs.empty() || it == libs.end()) {
         std::cout << "Failed to swap lib" << "it = " << it->first << std::endl;
