@@ -75,6 +75,7 @@ static int translateColor(Arcade::Color color, bool txt)
 Arcade::libNcurses::libNcurses()
 {
     _window = initscr();
+    //resizeterm(800, 800);
     cbreak();
     noecho();
     nodelay(_window, true);
@@ -131,7 +132,7 @@ void Arcade::libNcurses::drawText(Text *text)
 
 void Arcade::libNcurses::myClear()
 {
-    //clear();
+    clear();
 }
 
 void Arcade::libNcurses::myRefresh()

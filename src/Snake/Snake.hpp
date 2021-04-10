@@ -14,18 +14,48 @@
 #include "../../includes/IGraphic.hpp"
 
 namespace Arcade {
+
+    enum Dir {
+        DIR_LEFT,
+        DIR_RIGHT,
+        DIR_UP,
+        DIR_DOWN
+    };
+
     class Snake : public IGame {
         public:
             Snake();
             virtual ~Snake();
 
-        void initPlayerName(std::string playerName) override;
-        void draw(IGraphic *lib) override;
-        void getEvent(CommandType cmd, IGraphic *lib) override;
-        void update(double timeElapsed) override;
+            void initPlayerName(std::string playerName) override;
+            void draw(IGraphic *lib) override;
+            void getEvent(CommandType cmd, IGraphic *lib) override;
+            void update(double timeElapsed) override;
+
+            void checkApple();
+            bool checkCoor(int x, int y);
+            void checkEnd();
+            void remake();
 
         private:
             std::string _playerName;
+            std::vector<Pixel *> _snake;
+            Pixel *_bg;
+            Pixel *_map;
+            bool _toAdd;
+            Pixel *_apple;
+            int _score;
+            int _bestScore;
+            Text *_scoreText;
+            Text *_bestText;
+            Text *_name;
+            Text *_title;
+            Text *_gameover;
+            Text *_restartText;
+            double _dt;
+            Dir _dir;
+            Dir _nextDir;
+            bool _lose;
     };
 }
 
