@@ -19,15 +19,26 @@ static std::string menuLoop(Arcade::Core &core, Arcade::LibLoader loader, Arcade
 {
     Arcade::CommandType event = Arcade::NO_EVENT;
     int choices = 0;
+    clock_t start_t;
+    clock_t end_t;
+    double current_time = 0.0f;
+    double dt = 0.0f;
 
     menu->initLibAvailable(loader.getLibAvailable(Arcade::GAME), loader.getLibAvailable(Arcade::GRAPHIC));
     while (event != Arcade::ESC && event != Arcade::CLOSE_WINDOW && choices < 2) {
+        start_t = clock();
         event = core.getGraphicLib()->getInput();
         menu->getEvent(event, core.getGraphicLib());
         choices += event == Arcade::ENTER ? 1 : 0;
         core.switchLib(loader, event);
-        menu->displayBackground(core.getGraphicLib());
-        menu->displayText(core.getGraphicLib(), core.getScores());
+        if (dt >= double(1.0f / 25.0f)) {
+            menu->displayBackground(core.getGraphicLib());
+            menu->displayText(core.getGraphicLib(), core.getScores());
+            dt -= double(1.0f / 25.0f);
+        }
+        end_t = clock();
+        current_time = (double)(end_t - start_t) / CLOCKS_PER_SEC;
+        dt += current_time;
     }
     if (choices < 2)
         return "";
@@ -58,5 +69,8 @@ int main(int ac, char **av)
     name = menuLoop(core, loader, menu);
     if (core.getGameLib())
         core.runGame(loader, name);
+    delete menu;
+    core.deleteLibs();
+    loader.unloadAll();
     std::_Exit(0);
 }

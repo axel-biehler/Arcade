@@ -67,11 +67,9 @@ void Arcade::Core::switchLib(Arcade::LibLoader &loader, Arcade::CommandType even
 
 void Arcade::Core::runGame(LibLoader &loader, std::string &playerName)
 {
-    Arcade::CommandType event;
     Arcade::CommandType cmd = NO_EVENT;
-    int choices = 0;
-    clock_t start_t;
-    clock_t end_t;
+    clock_t start_t = 0;
+    clock_t end_t = 0;
     double current_time = 0.0f;
     double dt = 0.0f;
 
@@ -83,7 +81,8 @@ void Arcade::Core::runGame(LibLoader &loader, std::string &playerName)
         if (cmd == Arcade::ESC || cmd == Arcade::CLOSE_WINDOW)
             _isRunning = false;
         _gameLib->getEvent(cmd, _graphicLib);
-        if (dt >= double(1.0f / 60.0f)) {
+        switchLib(loader, cmd);
+        if (dt >= double(1.0f / 25.0f)) {
             _graphicLib->myClear();
             _gameLib->draw(_graphicLib);
             _graphicLib->myRefresh();
@@ -99,17 +98,30 @@ void Arcade::Core::runGame(LibLoader &loader, std::string &playerName)
 std::string Arcade::Core::playerNameLoop(Arcade::LibLoader &loader, Arcade::IMenu *menu)
 {
     Arcade::CommandType event = Arcade::NO_EVENT;
-    std::string name;
+    std::string name;;
+    clock_t start_t;
+    clock_t end_t;
+    double current_time = 0.0f;
+    double dt = 0.0f;
 
     while (event != Arcade::ESC && event != Arcade::ENTER && event != Arcade::CLOSE_WINDOW) {
+        start_t = clock();
         event = getGraphicLib()->getInput();
-        menu->displayBackground(getGraphicLib());
-        if (Core_KEY.find(event) != Core_KEY.end())
+        if (Core_KEY.find(event) != Core_KEY.end()) {
             name.push_back(Core_KEY.find(event)->second);
-        else if (event == Arcade::BACKSPACE)
+        }
+        else if (event == Arcade::BACKSPACE) {
             name.pop_back();
-        menu->setPlayerName(name);
-        menu->displayPlayerName(getGraphicLib());
+        }
+        if (dt >= double(1.0f / 25.0f)) {
+            menu->setPlayerName(name);
+            menu->displayBackground(getGraphicLib());
+            menu->displayPlayerName(getGraphicLib());
+            dt -= double(1.0f / 25.0f);
+        }
+        end_t = clock();
+        current_time = (double)(end_t - start_t) / CLOCKS_PER_SEC;
+        dt += current_time;
     }
     return name;
 }
@@ -141,4 +153,10 @@ std::vector<std::vector<std::string>> Arcade::Core::getScores() const
     } else
         std::cout << "Something went wrong while reading scores" << std::endl;
     return scores;
+}
+
+void Arcade::Core::deleteLibs()
+{
+    delete _gameLib;
+    delete _graphicLib;
 }

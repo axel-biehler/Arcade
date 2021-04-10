@@ -26,6 +26,7 @@ namespace Arcade {
         virtual void initBackground(IGraphic *libGraph) = 0;
         virtual void displayBackground(IGraphic *libGraph) = 0;
         virtual void displayPlayerName(IGraphic *libGraph) = 0;
+        virtual ~IMenu() {};
     };
 }
 

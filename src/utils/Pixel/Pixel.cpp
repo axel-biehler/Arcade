@@ -4,12 +4,13 @@
 
 #include "Pixel.hpp"
 
-Arcade::Pixel::Pixel(int xPos, int yPos, Arcade::Color color, int size) : _xPos(xPos), _yPos(yPos), _color(color), _size(size) {
-
+Arcade::Pixel::Pixel(int xPos, int yPos, Arcade::Color color, int size, int factor) : _xPos(xPos), _yPos(yPos), _color(color), _size(size)
+{
+    (void)factor;
 }
 
-Arcade::Pixel::~Pixel() {
-
+Arcade::Pixel::~Pixel()
+{
 }
 
 int Arcade::Pixel::getXPos() const {

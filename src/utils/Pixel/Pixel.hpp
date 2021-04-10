@@ -10,8 +10,8 @@
 namespace Arcade {
     class Pixel {
     public:
-        Pixel(int xPos, int yPos, Color color = WHITE, int size = 1);
-        virtual ~Pixel();
+        Pixel(int xPos, int yPos, Color color = WHITE, int size = 1, int factor = 5);
+        ~Pixel();
 
         int getXPos() const;
         void setXPos(int xPos);

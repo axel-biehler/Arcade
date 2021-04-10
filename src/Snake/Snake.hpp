@@ -25,7 +25,7 @@ namespace Arcade {
     class Snake : public IGame {
         public:
             Snake();
-            virtual ~Snake();
+            ~Snake() override;
 
             void initPlayerName(std::string playerName) override;
             void draw(IGraphic *lib) override;

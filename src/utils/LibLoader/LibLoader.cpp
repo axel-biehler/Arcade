@@ -102,3 +102,13 @@ Arcade::IGame *Arcade::LibLoader::loadNextGame(bool direction)
         toLoad = (*(it - 1)).second;
     return loadSharedLib<IGame>(toLoad, Arcade::GAME);
 }
+
+void Arcade::LibLoader::unloadAll()
+{
+    if (_loadedGame)
+        dlclose(_loadedGame);
+    if (_loadedGraphics)
+        dlclose(_loadedGraphics);
+    if (_loadedMenu)
+        dlclose(_loadedMenu);
+}

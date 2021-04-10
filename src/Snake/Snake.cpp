@@ -42,15 +42,27 @@ Arcade::Snake::Snake()
     _snake.push_back(new Pixel(50, 60, Arcade::GREEN, 2));
     _snake.push_back(new Pixel(48, 60, Arcade::GREEN, 2));
     _snake.push_back(new Pixel(46, 60, Arcade::GREEN, 2));
+    _toAdd = false;
 }
 
 Arcade::Snake::~Snake()
 {
+    delete _bg;
+    delete _map;
+    delete _apple;
+    delete _title;
+    delete _name;
+    delete _scoreText;
+    delete _bestText;
+    delete _gameover;
+    delete _restartText;
+    _snake.clear();
 }
 
 void Arcade::Snake::initPlayerName(std::string playerName)
 {
     _playerName = playerName;
+    delete _name;
     _name = new Text(15, 5, _playerName, Arcade::WHITE);
 }
 

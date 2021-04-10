@@ -59,6 +59,7 @@ namespace Arcade {
         std::string getNameLib(std::string &fp);
         IGraphic *loadNextGraphics(bool direction);
         IGame *loadNextGame(bool direction);
+        void unloadAll();
     private:
         void *_loadedMenu;
         void *_loadedGraphics;
