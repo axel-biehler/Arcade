@@ -10,17 +10,30 @@
 
 #include <vector>
 
+enum dir {
+    LEFT,
+    RIGHT,
+    DOWN,
+    UP,
+    NONE
+};
+
 class Character {
     public:
         Character();
         ~Character();
 
-        std::vector<std::vector<int>> getPos() const;
-        void setPos();
+        std::vector<int> getPos() const;
+        void setPos(std::vector<int> pos);
+        int getLifePoint() const;
+        void setLifePoint(int lifepoint);
+        dir getDir() const;
+        void setDir(dir direction);
 
     private:
-        std::vector<std::vector<int>> _pos;
+        std::vector<int> _pos;
         int _lifePoint;
+        dir _dir;
 };
 
 #endif /* !CHARACTER_HPP_ */

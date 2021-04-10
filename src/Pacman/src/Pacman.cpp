@@ -10,9 +10,10 @@
 #include "Pacman.hpp"
 #include "IGraphic.hpp"
 
-Arcade::Pacman::Pacman()
+Arcade::Pacman::Pacman(Arcade::Core core)
 {
     _map = getMap("assets/map.txt");
+    createGhost();
 }
 
 Arcade::Pacman::~Pacman()
@@ -51,4 +52,12 @@ void Arcade::Pacman::remake()
 void Arcade::Pacman::update(double timeElapsed)
 {
     
+}
+
+std::vector<Ghost> Arcade::Pacman::createGhost()
+{
+    for (int i = 0; i < 4; i++) {
+        Ghost ghost;
+        _ghosts.push_back(ghost);
+    }
 }

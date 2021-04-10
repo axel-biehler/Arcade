@@ -11,11 +11,14 @@
 #include <string>
 #include <vector>
 #include "IGame.hpp"
+#include "Character.hpp"
+#include "Ghost.hpp"
+#include "Core.hpp"
 
 namespace Arcade {
     class Pacman : public IGame{
         public:
-            Pacman();
+            Pacman(Core core);
             virtual ~Pacman();
 
             void draw() override;
@@ -23,9 +26,13 @@ namespace Arcade {
             void update(double timeElapsed) override;
             void remake() override;
             std::vector<std::string> getMap(const std::string &path);
+            std::vector<Ghost> createGhost();
 
         private:
             std::vector<std::string> _map;
+            std::vector<Ghost> _ghosts;
+            Character _pacman;
+            Core _core;
     };
 }
 
