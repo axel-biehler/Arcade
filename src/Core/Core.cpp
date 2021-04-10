@@ -7,6 +7,7 @@
 
 #include "Core.hpp"
 #include <time.h>
+#include <fstream>
 
 Arcade::Core::Core()
 {
@@ -109,4 +110,33 @@ std::string Arcade::Core::playerNameLoop(Arcade::LibLoader &loader, Arcade::IMen
         menu->displayPlayerName(getGraphicLib());
     }
     return name;
+}
+
+void Arcade::Core::storeScore(const std::string game, const std::string playerName, int score)
+{
+    std::ofstream myfile(game + ".txt");
+    if (myfile.is_open()) {
+        myfile << playerName << ": " << score << "\n";
+        myfile.close();
+    } else
+        std::cout << "Unable to store score" << std::endl;
+}
+
+std::vector<std::vector<std::string>> Arcade::Core::getScores() const
+{
+    std::vector<std::vector<std::string>> scores = { std::vector<std::string>(), std::vector<std::string>() };
+    std::string line;
+    std::ifstream nibblerFile ("nibbler.txt");
+    std::ifstream pacmanFile ("pacman.txt");
+
+    if (nibblerFile.is_open() && pacmanFile.is_open()) {
+        while (getline(nibblerFile, line))
+            scores[0].push_back(line);
+        while (getline(pacmanFile, line))
+            scores[1].push_back(line);
+        nibblerFile.close();
+        pacmanFile.close();
+    } else
+        std::cout << "Something went wrong while reading scores" << std::endl;
+    return scores;
 }

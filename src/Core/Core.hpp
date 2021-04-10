@@ -31,6 +31,8 @@ namespace Arcade {
         void switchLib(LibLoader &loader, CommandType event);
         void runGame(LibLoader &loader, std::string &playerName);
         std::string playerNameLoop(Arcade::LibLoader &loader, Arcade::IMenu *menu);
+        void storeScore(const std::string game, const std::string playerName, int score);
+        std::vector<std::vector<std::string>> getScores() const;
     private:
         IGraphic *_graphicLib;
         IGame *_gameLib;

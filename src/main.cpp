@@ -27,7 +27,7 @@ static std::string menuLoop(Arcade::Core &core, Arcade::LibLoader loader, Arcade
         choices += event == Arcade::ENTER ? 1 : 0;
         core.switchLib(loader, event);
         menu->displayBackground(core.getGraphicLib());
-        menu->displayText(core.getGraphicLib());
+        menu->displayText(core.getGraphicLib(), core.getScores());
     }
     if (choices < 2)
         return "";

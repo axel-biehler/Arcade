@@ -16,7 +16,7 @@ namespace Arcade {
         Menu();
         ~Menu();
         void initLibAvailable(std::vector<std::pair<std::string, std::string>> libGame, std::vector<std::pair<std::string, std::string>> libGraph) override;
-        void displayText(IGraphic *lib) override;
+        void displayText(IGraphic *lib, std::vector<std::vector<std::string>> scores) override;
         void getEvent(Arcade::CommandType event, Arcade::IGraphic *lib) override;
         std::string getLibGraph() const override;
         std::string getLibGame() const override;

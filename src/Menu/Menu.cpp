@@ -53,25 +53,43 @@ void Arcade::Menu::initLibAvailable(std::vector<std::pair<std::string, std::stri
     _libGraphics = libGraph;
 }
 
-void Arcade::Menu::displayText(IGraphic *lib)
+void Arcade::Menu::displayText(IGraphic *lib, std::vector<std::vector<std::string>> scores)
 {
-    Arcade::Text titleGraph(25, 10, "Graphical libraries", Arcade::BLACK);
-    Arcade::Text titleGame(75, 10, "Games", Arcade::BLACK);
+    Arcade::Text libs(50, 5, "Libraries", Arcade::BLACK);
+    Arcade::Text titleGraph(25, 12, "Graphics :", Arcade::BLACK);
+    Arcade::Text titleGame(75, 12, "Games :", Arcade::BLACK);
+    Arcade::Text highscores(50, 55, "Highscores", Arcade::BLACK);
+    Arcade::Text titleNibbler(25, 62, "Nibbler :", Arcade::BLACK);
+    Arcade::Text titlePacman(75, 62, "Pacman :", Arcade::BLACK);
     int i = 0;
 
     lib->drawText(&titleGraph);
     lib->drawText(&titleGame);
+    lib->drawText(&libs);
+    lib->drawText(&highscores);
+    lib->drawText(&titleNibbler);
+    lib->drawText(&titlePacman);
     for (auto & graphic : _libGraphics) {
-        Arcade::Text text(25, 20 + (8 * i), graphic.first, Arcade::BLACK);
+        Arcade::Text text(25, 20 + (6 * i), graphic.first, Arcade::BLACK);
         if (i++ == _cursor && !_row)
             text.setColor(Arcade::WHITE);
         lib->drawText(&text);
     }
     i = 0;
     for (auto & game : _libGames) {
-        Arcade::Text text(75, 20 + (8 * i), game.first, Arcade::BLACK);
+        Arcade::Text text(75, 20 + (6 * i), game.first, Arcade::BLACK);
         if (i++ == _cursor && _row)
             text.setColor(Arcade::WHITE);
+        lib->drawText(&text);
+    }
+    i = 0;
+    for (auto & nibblerIt : scores[0]) {
+        Arcade::Text text(25, 70 + (6 * i++), nibblerIt, Arcade::BLACK);
+        lib->drawText(&text);
+    }
+    i = 0;
+    for (auto & pacmanIt : scores[1]) {
+        Arcade::Text text(75, 70 + (6 * i++), pacmanIt, Arcade::BLACK);
         lib->drawText(&text);
     }
     lib->myRefresh();
@@ -107,12 +125,12 @@ void Arcade::Menu::initBackground(IGraphic *libGraph)
 
 void Arcade::Menu::displayBackground(IGraphic *libGraph)
 {
-    Arcade::Pixel myBox(50, 50, Arcade::GREEN, 100);
-    Arcade::Pixel myRedBox(50, 50, Arcade::RED, 30);
+    Arcade::Pixel libsBox(50, 0, Arcade::GREEN, 100);
+    Arcade::Pixel scoresBox(50, 100, Arcade::CYAN, 100);
 
     libGraph->myClear();
-    libGraph->drawPixel(&myBox);
-    libGraph->drawPixel(&myRedBox);
+    libGraph->drawPixel(&libsBox);
+    libGraph->drawPixel(&scoresBox);
 }
 
 void Arcade::Menu::displayPlayerName(Arcade::IGraphic *libGraph)
