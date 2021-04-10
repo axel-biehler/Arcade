@@ -78,15 +78,17 @@ void Arcade::Core::runGame(LibLoader &loader, std::string &playerName)
     _isRunning = true;
     while (_isRunning || cmd == Arcade::CommandType::ESC) {
         start_t = clock();
-        _graphicLib->myClear();
         cmd = _graphicLib->getInput();
+        if (cmd == Arcade::ESC || cmd == Arcade::CLOSE_WINDOW)
+            _isRunning = false;
         _gameLib->getEvent(cmd, _graphicLib);
-        _gameLib->draw(_graphicLib);
         if (dt >= double(1.0f / 60.0f)) {
-            _gameLib->update(current_time);
+            _graphicLib->myClear();
+            _gameLib->draw(_graphicLib);
+            _graphicLib->myRefresh();
             dt = 0.0f;
         }
-        _graphicLib->myRefresh();
+        _gameLib->update(current_time);
         end_t = clock();
         current_time = (double)(end_t - start_t) / CLOCKS_PER_SEC;
         dt += current_time;

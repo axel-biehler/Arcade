@@ -45,7 +45,7 @@ static sf::Color translateColor(Arcade::Color color)
 
 Arcade::libSFML::libSFML()
 {
-    _window.create(sf::VideoMode(800, 600), "Arcade");
+    _window.create(sf::VideoMode(800, 800), "Arcade");
     _window.setFramerateLimit(40);
     _window.setKeyRepeatEnabled(true);
 }
