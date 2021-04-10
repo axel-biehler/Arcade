@@ -51,6 +51,7 @@ Arcade::Snake::~Snake()
 void Arcade::Snake::initPlayerName(std::string playerName)
 {
     _playerName = playerName;
+    _name = new Text(15, 5, _playerName, Arcade::WHITE);
 }
 
 void Arcade::Snake::draw(IGraphic *lib)
