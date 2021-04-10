@@ -24,6 +24,7 @@ Arcade::Snake::Snake()
 {
     _dt = 0.0f;
     _score = 0;
+    _bestScore = 0;
     _lose = false;
     _dir = Dir::DIR_RIGHT;
     _nextDir = Dir::DIR_RIGHT;
@@ -34,10 +35,13 @@ Arcade::Snake::Snake()
     _title = new Text(50, 10, "SNAKE", Arcade::MAGENTA);
     _name = new Text(15, 5, _playerName, Arcade::WHITE);
     _scoreText = new Text(85, 5, "score : 0", Arcade::WHITE);
-    _snake.push_back(new Pixel(52, 50, Arcade::MAGENTA, 2));
-    _snake.push_back(new Pixel(50, 50, Arcade::GREEN, 2));
-    _snake.push_back(new Pixel(48, 50, Arcade::GREEN, 2));
-    _snake.push_back(new Pixel(46, 50, Arcade::GREEN, 2));
+    _bestText = new Text(85, 10, "best : 0", Arcade::WHITE);
+    _gameover = new Text(50, 50, "GAME OVER", Arcade::RED);
+    _restartText = new Text(50, 60, "Press \"R\" to restart", Arcade::BLACK);
+    _snake.push_back(new Pixel(52, 60, Arcade::MAGENTA, 2));
+    _snake.push_back(new Pixel(50, 60, Arcade::GREEN, 2));
+    _snake.push_back(new Pixel(48, 60, Arcade::GREEN, 2));
+    _snake.push_back(new Pixel(46, 60, Arcade::GREEN, 2));
 }
 
 Arcade::Snake::~Snake()
@@ -54,13 +58,19 @@ void Arcade::Snake::draw(IGraphic *lib)
 
     lib->drawPixel(_bg);
     lib->drawPixel(_map);
-    lib->drawPixel(_apple);
-    for (auto it = _snake.begin(); it != _snake.end(); it++) {
-        lib->drawPixel(*(it));
+    if (!_lose) {
+        lib->drawPixel(_apple);
+        for (auto it = _snake.begin(); it != _snake.end(); it++) {
+            lib->drawPixel(*(it));
+        }
+    } else {
+        lib->drawText(_gameover);
+        lib->drawText(_restartText);
     }
     lib->drawText(_name);
     lib->drawText(_title);
     lib->drawText(_scoreText);
+    lib->drawText(_bestText);
 }
 
 void Arcade::Snake::getEvent(CommandType cmd, IGraphic *lib)
@@ -112,11 +122,22 @@ void Arcade::Snake::update(double timeElapsed)
 void Arcade::Snake::checkEnd()
 {
     if (_snake.front()->getXPos() < 14 || _snake.front()->getXPos() > 86 
-        || _snake.front()->getYPos() < 24 || _snake.front()->getYPos() > 96)
+        || _snake.front()->getYPos() < 24 || _snake.front()->getYPos() > 96) {
         _lose = true;
+        if (_score > _bestScore) {
+            _bestScore = _score;
+            _bestText->setStr("best : " + std::to_string(_bestScore));
+        }
+    }
     for (auto it = _snake.begin() + 1; it != _snake.end(); it++) {
-        if (_snake.front()->getXPos()  == (*it)->getXPos() && _snake.front()->getYPos() == (*it)->getYPos())
+        if (_snake.front()->getXPos()  == (*it)->getXPos() && _snake.front()->getYPos() == (*it)->getYPos()) {
             _lose = true;
+            if (_score > _bestScore) {
+                _bestScore = _score;
+                _bestText->setStr("best : " + std::to_string(_bestScore));
+            }
+            break;
+        }
     }
 }
 

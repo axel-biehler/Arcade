@@ -45,9 +45,13 @@ namespace Arcade {
             bool _toAdd;
             Pixel *_apple;
             int _score;
+            int _bestScore;
             Text *_scoreText;
+            Text *_bestText;
             Text *_name;
             Text *_title;
+            Text *_gameover;
+            Text *_restartText;
             double _dt;
             Dir _dir;
             Dir _nextDir;
