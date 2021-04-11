@@ -153,6 +153,7 @@ void Arcade::Pacman::getEvent(Arcade::CommandType cmd, IGraphic *lib)
 void Arcade::Pacman::update(double timeElapsed)
 {
     _time += timeElapsed;
+    _timeWin += timeElapsed;
     if (_time >= double(1 / 5.0f) && !_win && !_defeat) {
         switch (_pacman.getDir())
         {
@@ -195,8 +196,11 @@ void Arcade::Pacman::update(double timeElapsed)
         checkContactGhost();
         check_win();
         _time = 0;
-        if (_win)
+        if (_win) {
             nextLevel();
+            while (_timeWin <= 3.0f);
+            _timeWin = 0;
+        }
     }
 }
 
