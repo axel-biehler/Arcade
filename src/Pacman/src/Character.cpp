@@ -9,8 +9,8 @@
 
 PacmanGame::Character::Character()
 {
-    _pos[0] = 17;
-    _pos[1] = 19;
+    _pos[0] = 40;
+    _pos[1] = 64;
     _dir = NONE;
 }
 
@@ -46,4 +46,11 @@ PacmanGame::dir PacmanGame::Character::getDir() const
 void PacmanGame::Character::setDir(dir direction)
 {
     _dir = direction;
+}
+
+void PacmanGame::Character::operator=(PacmanGame::Character &c)
+{
+    _pos[0] = c.getPosX();
+    _pos[1] = c.getPosY();
+    _dir = c.getDir();
 }

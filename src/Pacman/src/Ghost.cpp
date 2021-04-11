@@ -9,8 +9,8 @@
 
 PacmanGame::Ghost::Ghost(Arcade::Color color)
 {
-    _pos[0] = 18;
-    _pos[1] = 18;
+    _pos[0] = 38;
+    _pos[1] = 34;
     _color = color;
     _isAffraid = false;
 }
