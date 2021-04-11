@@ -27,16 +27,13 @@ namespace PacmanGame {
 
             int getPosX() const;
             int getPosY() const;
-            void setPosX(int pos[2]);
-            void setPosY(int pos[2]);
-            int getLifePoint() const;
-            void setLifePoint(int lifepoint);
+            void setPosX(int pos);
+            void setPosY(int pos);
             dir getDir() const;
             void setDir(dir direction);
 
         private:
             int _pos[2];
-            int _lifePoint;
             dir _dir;
     };
 }

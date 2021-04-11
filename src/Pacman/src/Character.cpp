@@ -11,7 +11,6 @@ PacmanGame::Character::Character()
 {
     _pos[0] = 17;
     _pos[1] = 19;
-    _lifePoint = 3;
     _dir = NONE;
 }
 
@@ -24,9 +23,9 @@ int PacmanGame::Character::getPosX() const
     return _pos[0];
 }
 
-void PacmanGame::Character::setPosX(int pos[2])
+void PacmanGame::Character::setPosX(int pos)
 {
-    _pos[0] = pos[0];
+    _pos[0] = pos;
 }
 
 int PacmanGame::Character::getPosY() const
@@ -34,19 +33,9 @@ int PacmanGame::Character::getPosY() const
     return _pos[1];
 }
 
-void PacmanGame::Character::setPosY(int pos[2])
+void PacmanGame::Character::setPosY(int pos)
 {
-    _pos[1] = _pos[1];
-}
-
-int PacmanGame::Character::getLifePoint() const
-{
-    return _lifePoint;
-}
-
-void PacmanGame::Character::setLifePoint(int lifepoint)
-{
-    _lifePoint = lifepoint;
+    _pos[1] = pos;
 }
 
 PacmanGame::dir PacmanGame::Character::getDir() const

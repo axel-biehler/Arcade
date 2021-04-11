@@ -92,40 +92,62 @@ void Arcade::Pacman::draw(IGraphic *lib)
     }
 }
 
-Arcade::CommandType Arcade::Pacman::getEvent(Arcade::CommandType cmd, IGraphic *lib)
+void Arcade::Pacman::getEvent(Arcade::CommandType cmd, IGraphic *lib)
 {
-    
-
-    return Arcade::CommandType::NO_EVENT;
-}
-
-void Arcade::Pacman::remake()
-{
-
+    (void)lib;
+    if (cmd == CommandType::RIGHT && _dir != PacmanGame::dir::LEFT)
+        _nextDir = PacmanGame::dir::RIGHT;
+    else if (cmd == CommandType::LEFT && _dir != PacmanGame::dir::RIGHT)
+        _nextDir = PacmanGame::dir::LEFT;
+    else if (cmd == CommandType::UP && _dir != PacmanGame::dir::DOWN)
+        _nextDir = PacmanGame::dir::UP;
+    else if (cmd == CommandType::DOWN && _dir != PacmanGame::dir::UP)
+        _nextDir = PacmanGame::dir::DOWN;
+    else if (cmd == CommandType::R)
+        remake();
 }
 
 void Arcade::Pacman::update(double timeElapsed)
 {
+    _time += timeElapsed;
     if (_time >= double(1 / 60)) {
         switch (_pacman.getDir())
         {
             case PacmanGame::dir::LEFT:
-                _pacman.setDir(PacmanGame::dir::LEFT);
+                if (_map[_pacman.getPosY()][_pacman.getPosX() + 1] != '1') {
+                    _map[_pacman.getPosY()][_pacman.getPosX()] = ' ';
+                    _pacman.setPosX(_pacman.getPosX() + 1);
+                    _map[_pacman.getPosY()][_pacman.getPosX()] = 'P';
+                }
                 break;
             case PacmanGame::dir::RIGHT:
-                _pacman.setDir(PacmanGame::dir::RIGHT);
+                if (_map[_pacman.getPosY()][_pacman.getPosX() - 1] != '1') {
+                    _map[_pacman.getPosY()][_pacman.getPosX()] = ' ';
+                    _pacman.setPosX(_pacman.getPosX() - 1);
+                    _map[_pacman.getPosY()][_pacman.getPosX()] = 'P';
+                }
                 break;
             case PacmanGame::dir::DOWN:
-                _pacman.setDir(PacmanGame::dir::DOWN);
+                if (_map[_pacman.getPosY() + 1][_pacman.getPosX()] != '1') {
+                    _map[_pacman.getPosY()][_pacman.getPosX()] = ' ';
+                    _pacman.setPosX(_pacman.getPosX() + 1);
+                    _map[_pacman.getPosY()][_pacman.getPosX()] = 'P';
+                }
                 break;
             case PacmanGame::dir::UP:
-                _pacman.setDir(PacmanGame::dir::UP);
+                if (_map[_pacman.getPosY() - 1][_pacman.getPosX()] != '1') {
+                    _map[_pacman.getPosY()][_pacman.getPosX()] = ' ';
+                    _pacman.setPosX(_pacman.getPosX() - 1);
+                    _map[_pacman.getPosY()][_pacman.getPosX()] = 'P';
+                }
+                break;
+            case PacmanGame::NONE:
                 break;
         }
     }
 }
 
-std::vector<PacmanGame::Ghost> Arcade::Pacman::createGhost()
+void Arcade::Pacman::createGhost()
 {
     std::vector<Color> colors = {Color::GREEN, Color::CYAN, Color::RED, Color::WHITE};
 
@@ -138,4 +160,9 @@ std::vector<PacmanGame::Ghost> Arcade::Pacman::createGhost()
 void Arcade::Pacman::initPlayerName(std::string playerName)
 {
     _name = playerName;
+}
+
+void Arcade::Pacman::remake()
+{
+    
 }

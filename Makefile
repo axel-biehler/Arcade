@@ -5,7 +5,7 @@
 ## Makefile
 ##
 
-all: core games
+all: core games graphicals
 
 graphicals:
 	make -C src/libSFML

@@ -21,20 +21,23 @@ namespace Arcade {
             virtual ~Pacman();
 
             void draw(IGraphic *lib) override;
-            CommandType getEvent(CommandType cmd, IGraphic *lib) override;
+            void getEvent(CommandType cmd, IGraphic *lib) override;
             void update(double timeElapsed) override;
-            void remake() override;
             void initPlayerName(std::string playerName) override;
             std::vector<std::string> getMap(const std::string &path);
-            std::vector<PacmanGame::Ghost> createGhost();
+            void createGhost();
             void drawGhost(Arcade::IGraphic *lib);
+            void remake();
 
         private:
             std::vector<std::string> _map;
             std::vector<PacmanGame::Ghost> _ghosts;
             PacmanGame::Character _pacman;
             std::string _name;
+            int _score;
             double _time;
+            PacmanGame::dir _nextDir;
+            PacmanGame::dir _dir;
     };
 }
 
