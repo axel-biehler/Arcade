@@ -66,7 +66,7 @@ PacmanGame::dir PacmanGame::Ghost::changeDir(std::vector<std::string> map)
     srand (time(NULL));
     int dir = rand() % 4;
 
-    if (dir == PacmanGame::dir::DOWN && map[_pos[1] / 2 + 1][_pos[0] / 2] != '1')
+    if (dir == PacmanGame::dir::DOWN && map[_pos[1] / 2 + 1][_pos[0] / 2 ] != '1')
         return (PacmanGame::dir)dir;
     else if (dir == PacmanGame::dir::UP && map[_pos[1] / 2 - 1][_pos[0] / 2] != '1')
         return (PacmanGame::dir)dir;
@@ -83,29 +83,29 @@ void PacmanGame::Ghost::move(std::vector<std::string> map, double timeElapsed)
     switch (_dir)
     {
         case PacmanGame::dir::LEFT:
-            if (map[_pos[1] / 2][_pos[0] / 2 - 1] != '1') {
-                map[_pos[1] / 2][_pos[0] / 2] = ' ';
+            if (map[_pos[1] / 2][_pos[0] / 2 - 1 ] != '1') {
+                map[_pos[1] / 2 ][_pos[0] / 2 ] = ' ';
                 _pos[0] = (_pos[0] - 2);
             } else
                 _dir = NONE;
             break;
         case PacmanGame::dir::RIGHT:
-            if (map[_pos[1] / 2][_pos[0] / 2 + 1] != '1') {
-                map[_pos[1] / 2][_pos[0] / 2] = ' ';
+            if (map[_pos[1] / 2 ][_pos[0] / 2 + 1 ] != '1') {
+                map[_pos[1] / 2 ][_pos[0] / 2 ] = ' ';
                 _pos[0] = (_pos[0] + 2);
             } else
                 _dir = NONE;
             break;
         case PacmanGame::dir::DOWN:
-            if (map[_pos[1] / 2 + 1][_pos[0] / 2] != '1') {
-                map[_pos[1] / 2][_pos[0] / 2] = ' ';
+            if (map[_pos[1] / 2 + 1 ][_pos[0] / 2 ] != '1') {
+                map[_pos[1] / 2 ][_pos[0] / 2 ] = ' ';
                 _pos[1] = (_pos[1] + 2);
             } else
                 _dir = NONE;
             break;
         case PacmanGame::dir::UP:
-            if (map[_pos[1] / 2 - 1][_pos[0] / 2] != '1') {
-                map[_pos[1] / 2][_pos[0] / 2] = ' ';
+            if (map[_pos[1] / 2 - 1 ][_pos[0] / 2 ] != '1') {
+                map[_pos[1] / 2 ][_pos[0] / 2 ] = ' ';
                 _pos[1] = (_pos[1] - 2);
             } else
                 _dir = NONE;
