@@ -56,6 +56,7 @@ namespace Arcade {
             Dir _dir;
             Dir _nextDir;
             bool _lose;
+            bool _stored;
     };
 }
 

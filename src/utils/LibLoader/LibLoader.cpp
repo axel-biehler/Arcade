@@ -47,7 +47,7 @@ std::vector<std::pair<std::string, std::string>> Arcade::LibLoader::getLibAvaila
     return libs;
 }
 
-std::string Arcade::LibLoader::getNameLib(std::string &fp)
+std::string Arcade::LibLoader::getNameLib(std::basic_string<char> fp)
 {
     if (fp.find(".so", 0) != std::string::npos) {
         std::string name = fp.substr(fp.find('_', 0));

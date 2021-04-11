@@ -6,8 +6,8 @@
 */
 
 #include <cstdlib> 
-#include <ctime> 
-
+#include <ctime>
+#include <fstream>
 #include "Snake.hpp"
 
 extern "C" Arcade::IGame *getLib()
@@ -43,6 +43,7 @@ Arcade::Snake::Snake()
     _snake.push_back(new Pixel(48, 60, Arcade::GREEN, 2));
     _snake.push_back(new Pixel(46, 60, Arcade::GREEN, 2));
     _toAdd = false;
+    _stored = false;
 }
 
 Arcade::Snake::~Snake()
@@ -66,9 +67,18 @@ void Arcade::Snake::initPlayerName(std::string playerName)
     _name = new Text(15, 5, _playerName, Arcade::WHITE);
 }
 
+static void storeScore(const std::string game, const std::string playerName, int score)
+{
+    std::ofstream myfile(game + ".txt");
+    if (myfile.is_open()) {
+        myfile << playerName << ": " << score << "\n";
+        myfile.close();
+    } else
+        std::cout << "Unable to store score" << std::endl;
+}
+
 void Arcade::Snake::draw(IGraphic *lib)
 {
-
     lib->drawPixel(_bg);
     lib->drawPixel(_map);
     if (!_lose) {
@@ -79,6 +89,10 @@ void Arcade::Snake::draw(IGraphic *lib)
     } else {
         lib->drawText(_gameover);
         lib->drawText(_restartText);
+        if (!_stored) {
+            storeScore("Nibbler", _playerName, _score);
+            _stored = true;
+        }
     }
     lib->drawText(_name);
     lib->drawText(_title);
@@ -207,4 +221,5 @@ void Arcade::Snake::remake()
     _snake.push_back(new Pixel(50, 50, Arcade::GREEN, 2));
     _snake.push_back(new Pixel(48, 50, Arcade::GREEN, 2));
     _snake.push_back(new Pixel(46, 50, Arcade::GREEN, 2));
+    _stored = false;
 }

@@ -40,12 +40,13 @@ static std::string menuLoop(Arcade::Core &core, Arcade::LibLoader loader, Arcade
         current_time = (double)(end_t - start_t) / CLOCKS_PER_SEC;
         dt += current_time;
     }
-    if (choices < 2)
+    if (choices < 2 || event == Arcade::ESC)
         return "";
     std::string name = core.playerNameLoop(loader, menu);
     delete core.getGraphicLib();
     core.setGraphicLib(loader.loadSharedLib<Arcade::IGraphic>(menu->getLibGraph(), Arcade::GRAPHIC));
     core.setGameLib(loader.loadSharedLib<Arcade::IGame>(menu->getLibGame(), Arcade::GAME));
+    core.set_game_name(loader.getNameLib(menu->getLibGame()));
     return name;
 }
 
@@ -54,6 +55,7 @@ int main(int ac, char **av)
     Arcade::Core core;
     Arcade::LibLoader loader;
     std::string name = "Player";
+    bool running = true;
 
     if (ac < 2) {
         print_usage();
@@ -66,9 +68,8 @@ int main(int ac, char **av)
         return 84;
     }
     core.setGraphicLib(graphicLib);
-    name = menuLoop(core, loader, menu);
-    if (core.getGameLib())
-        core.runGame(loader, name);
+    while (running && !(name = menuLoop(core, loader, menu)).empty())
+        running = core.runGame(loader, name);
     delete menu;
     core.deleteLibs();
     loader.unloadAll();

@@ -39,6 +39,16 @@ Arcade::IGame *Arcade::Core::getGameLib() const
     return _gameLib;
 }
 
+void Arcade::Core::set_game_name(const std::string &game_name)
+{
+    _gameName = game_name;
+}
+
+const std::string &Arcade::Core::get_game_name() const
+{
+    return _gameName;
+}
+
 void Arcade::Core::switchLib(Arcade::LibLoader &loader, Arcade::CommandType event)
 {
     Arcade::CommandType libEvent[] = {
@@ -65,7 +75,7 @@ void Arcade::Core::switchLib(Arcade::LibLoader &loader, Arcade::CommandType even
     }
 }
 
-void Arcade::Core::runGame(LibLoader &loader, std::string &playerName)
+bool Arcade::Core::runGame(LibLoader &loader, std::string &playerName)
 {
     Arcade::CommandType cmd = NO_EVENT;
     clock_t start_t = 0;
@@ -74,12 +84,9 @@ void Arcade::Core::runGame(LibLoader &loader, std::string &playerName)
     double dt = 0.0f;
 
     _gameLib->initPlayerName(playerName);
-    _isRunning = true;
-    while (_isRunning || cmd == Arcade::CommandType::ESC) {
+    while (cmd != Arcade::CommandType::CLOSE_WINDOW && cmd != Arcade::CommandType::ESC && cmd != Arcade::CommandType::SPACE) {
         start_t = clock();
         cmd = _graphicLib->getInput();
-        if (cmd == Arcade::ESC || cmd == Arcade::CLOSE_WINDOW)
-            _isRunning = false;
         _gameLib->getEvent(cmd, _graphicLib);
         switchLib(loader, cmd);
         if (dt >= double(1.0f / 25.0f)) {
@@ -93,6 +100,10 @@ void Arcade::Core::runGame(LibLoader &loader, std::string &playerName)
         current_time = (double)(end_t - start_t) / CLOCKS_PER_SEC;
         dt += current_time;
     }
+    if (cmd == Arcade::CommandType::ESC)
+        return false;
+    else
+        return true;
 }
 
 std::string Arcade::Core::playerNameLoop(Arcade::LibLoader &loader, Arcade::IMenu *menu)
@@ -113,6 +124,7 @@ std::string Arcade::Core::playerNameLoop(Arcade::LibLoader &loader, Arcade::IMen
         else if (event == Arcade::BACKSPACE) {
             name.pop_back();
         }
+        switchLib(loader, event);
         if (dt >= double(1.0f / 25.0f)) {
             menu->setPlayerName(name);
             menu->displayBackground(getGraphicLib());
@@ -140,8 +152,8 @@ std::vector<std::vector<std::string>> Arcade::Core::getScores() const
 {
     std::vector<std::vector<std::string>> scores = { std::vector<std::string>(), std::vector<std::string>() };
     std::string line;
-    std::ifstream nibblerFile ("nibbler.txt");
-    std::ifstream pacmanFile ("pacman.txt");
+    std::ifstream nibblerFile("Nibbler.txt");
+    std::ifstream pacmanFile("Pacman.txt");
 
     if (nibblerFile.is_open() && pacmanFile.is_open()) {
         while (getline(nibblerFile, line))

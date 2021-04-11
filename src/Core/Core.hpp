@@ -29,15 +29,17 @@ namespace Arcade {
         IGraphic *getGraphicLib() const;
         IGame *getGameLib() const;
         void switchLib(LibLoader &loader, CommandType event);
-        void runGame(LibLoader &loader, std::string &playerName);
+        bool runGame(LibLoader &loader, std::string &playerName);
         std::string playerNameLoop(Arcade::LibLoader &loader, Arcade::IMenu *menu);
         void storeScore(const std::string game, const std::string playerName, int score);
         std::vector<std::vector<std::string>> getScores() const;
         void deleteLibs();
+        const std::string &get_game_name() const;
+        void set_game_name(const std::string &game_name);
     private:
         IGraphic *_graphicLib;
         IGame *_gameLib;
-        bool _isRunning;
+        std::string _gameName;
         std::map<CommandType, int> Core_KEY {
             {A, 'a'},
             {B, 'b'},
