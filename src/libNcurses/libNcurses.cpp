@@ -107,9 +107,22 @@ Arcade::libNcurses::~libNcurses()
 void Arcade::libNcurses::drawPixel(Pixel *pixel)
 {
     char pix = ' ';
-    int sizeX = pixel->getSize() * COLS / 100;
-    int sizeY = pixel->getSize() * LINES / 100;
-    int x = COLS * pixel->getXPos() / 100 - 0.5 * sizeX;
+    int nbCols = COLS;
+    int nbLines = LINES;
+    int nbExtra = 0;
+    if (nbCols > nbLines) {
+        nbExtra = (nbCols - (nbLines * 2)) / 2 + 1;
+        nbCols = nbLines * 2 - 3;
+    }
+    int sizeX = pixel->getSize() * nbCols / 100;
+    int sizeY = pixel->getSize() * nbLines / 100;
+
+    if (sizeX == 0)
+        sizeX = 1;
+    if (sizeY == 0)
+        sizeY = 1;
+
+    int x = nbCols * pixel->getXPos() / 100 - 0.5 * sizeX + nbExtra;
     int y = LINES * pixel->getYPos() / 100 - 0.5 * sizeY;
 
     attron(COLOR_PAIR(translateColor(pixel->getColor(), false)));
@@ -132,7 +145,7 @@ void Arcade::libNcurses::drawText(Text *text)
 
 void Arcade::libNcurses::myClear()
 {
-    clear();
+    erase();
 }
 
 void Arcade::libNcurses::myRefresh()
