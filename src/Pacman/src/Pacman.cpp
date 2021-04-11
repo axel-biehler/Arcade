@@ -29,6 +29,7 @@ Arcade::Pacman::Pacman()
     createGhost();
     _time = 0.0f;
     _nextDir = PacmanGame::NONE;
+    srand(time(nullptr));
 }
 
 Arcade::Pacman::~Pacman()
@@ -92,8 +93,6 @@ void Arcade::Pacman::draw(IGraphic *lib)
                     lib->drawPixel(&maxOrb);
                     break;
                 default:
-                    drawGhost(lib);
-                    lib->drawPixel(&player);
                     break;
             }
             pos[0] += 2;
@@ -101,6 +100,8 @@ void Arcade::Pacman::draw(IGraphic *lib)
         pos[0] = 0;
         pos[1] += 2;
     }
+    drawGhost(lib);
+    lib->drawPixel(&player);
 }
 
 void Arcade::Pacman::getEvent(Arcade::CommandType cmd, IGraphic *lib)
@@ -186,5 +187,13 @@ void Arcade::Pacman::initPlayerName(std::string playerName)
 
 void Arcade::Pacman::remake()
 {
-    
+    _ghosts.clear();
+    _map.clear();
+    PacmanGame::Character charac;
+    _pacman = charac;
+    _map = getMap("src/Pacman/assets/map.txt");
+    createGhost();
+    _time = 0.0f;
+    _nextDir = PacmanGame::NONE;
+    srand(time(nullptr));
 }

@@ -11,7 +11,7 @@
 PacmanGame::Ghost::Ghost(Arcade::Color color)
 {
     _pos[0] = 38;
-    _pos[1] = 34;
+    _pos[1] = 28;
     _color = color;
     _isAffraid = false;
     _dir = PacmanGame::UP;
@@ -63,23 +63,47 @@ void PacmanGame::Ghost::setIsAffraid(bool isAffraid)
 
 PacmanGame::dir PacmanGame::Ghost::changeDir(std::vector<std::string> map)
 {
-    srand (time(NULL));
-    int dir = rand() % 4;
-
-    if (dir == PacmanGame::dir::DOWN && map[_pos[1] / 2 + 1][_pos[0] / 2] != '1')
-        return (PacmanGame::dir)dir;
-    else if (dir == PacmanGame::dir::UP && map[_pos[1] / 2 - 1][_pos[0] / 2] != '1')
-        return (PacmanGame::dir)dir;
-    else if (dir == PacmanGame::dir::RIGHT && map[_pos[1] / 2][_pos[0] / 2 + 1] != '1')
-        return (PacmanGame::dir)dir;
-    else if (dir == PacmanGame::dir::LEFT && map[_pos[1] / 2][_pos[0] / 2 - 1] != '1')
-        return (PacmanGame::dir)dir;
+    if (map[_pos[1] / 2 + 1][_pos[0] / 2] != '1')
+        return (PacmanGame::dir)DOWN;
+    else if (map[_pos[1] / 2][_pos[0] / 2 + 1] != '1')
+        return (PacmanGame::dir)RIGHT;
+    else if (map[_pos[1] / 2 - 1][_pos[0] / 2] != '1')
+        return (PacmanGame::dir)UP;
+    else if (map[_pos[1] / 2][_pos[0] / 2 - 1] != '1')
+        return (PacmanGame::dir)LEFT;
     return NONE;
+}
+
+static PacmanGame::dir chooseWay(std::vector<std::string> map, int *pos, PacmanGame::dir actualDir)
+{
+    bool chance = random() % 2;
+    int doubleChance = (int)(random() % 4);
+
+    if (!((map[pos[1] / 2 + 1][pos[0] / 2] != '1' || map[pos[1] / 2 - 1][pos[0] / 2] != '1') && (map[pos[1] / 2][pos[0] / 2 - 1] != '1' || map[pos[1] / 2][pos[0] / 2 + 1] != '1')))
+        return actualDir;
+    else if ((actualDir == PacmanGame::UP || actualDir == PacmanGame::DOWN) && map[pos[1] / 2][pos[0] / 2 + 1] != '1' && chance)
+        return PacmanGame::RIGHT;
+    else if ((actualDir == PacmanGame::UP || actualDir == PacmanGame::DOWN) && map[pos[1] / 2][pos[0] / 2 - 1] != '1' && chance)
+        return PacmanGame::LEFT;
+    else if ((actualDir == PacmanGame::RIGHT || actualDir == PacmanGame::LEFT) && map[pos[1] / 2 + 1][pos[0] / 2] != '1' && chance)
+        return PacmanGame::DOWN;
+    else if ((actualDir == PacmanGame::RIGHT || actualDir == PacmanGame::LEFT) && map[pos[1] / 2 - 1][pos[0] / 2] != '1' && chance)
+        return PacmanGame::UP;
+    if (doubleChance == 0)
+        return PacmanGame::UP;
+    else if (doubleChance == 1)
+        return PacmanGame::DOWN;
+    else if (doubleChance == 2)
+        return PacmanGame::LEFT;
+    else if (doubleChance == 3)
+        return PacmanGame::RIGHT;
+    return chance ? PacmanGame::LEFT : PacmanGame::RIGHT;
 }
 
 void PacmanGame::Ghost::move(std::vector<std::string> map, double timeElapsed)
 {
     (void)timeElapsed;
+    _dir = chooseWay(map, _pos, _dir);
     switch (_dir)
     {
         case PacmanGame::dir::LEFT:
