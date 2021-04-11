@@ -29,6 +29,7 @@ namespace Arcade {
             std::vector<std::string> getMap(const std::string &path);
             void createGhost();
             void drawGhost(Arcade::IGraphic *lib);
+            void check_win();
             void remake();
 
         private:
