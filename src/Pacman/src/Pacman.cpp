@@ -35,6 +35,9 @@ Arcade::Pacman::Pacman()
     _offset = 10;
     _score = 0;
     _level = 1;
+    _stored = false;
+    _timeAffraid = 0.0f;
+    _isAffrayed = false;
 }
 
 Arcade::Pacman::~Pacman()
@@ -70,6 +73,16 @@ void Arcade::Pacman::moveGhost(double timeElapsed)
     }
 }
 
+static void storeScore(const std::string game, const std::string playerName, int score)
+{
+    std::ofstream myfile(game + ".txt");
+    if (myfile.is_open()) {
+        myfile << playerName << ": " << score << "\n";
+        myfile.close();
+    } else
+        std::cout << "Unable to store score" << std::endl;
+}
+
 void Arcade::Pacman::draw(IGraphic *lib)
 {
     Pixel wall = {0, 0, Color::BLUE, 2};
@@ -77,7 +90,7 @@ void Arcade::Pacman::draw(IGraphic *lib)
     Pixel maxOrb = {0, 0, Color::YELLOW, 1};
     Pixel player = {_pacman.getPosX() + _offset, _pacman.getPosY() + _offset, Arcade::YELLOW, 2};
     Pixel back = {50, 50, Arcade::BLACK, 100};
-    Text win = {50, 50, "Level " + std::to_string(_level), Arcade::WHITE, 6};
+    Text win = {90, 5, "Level " + std::to_string(_level), Arcade::WHITE};
     Text lose = {50, 50, "You lose", Arcade::WHITE, 6};
     Text score = {10, 5, "Score: " + std::to_string(_score)};
     Text name = {50, 5, _name};
@@ -113,11 +126,13 @@ void Arcade::Pacman::draw(IGraphic *lib)
     }
     drawGhost(lib);
     lib->drawPixel(&player);
-    if (_win) {
-        lib->drawText(&win);
-    }
+    lib->drawText(&win);
     if (_defeat)
         lib->drawText(&lose);
+    if ((_win || _defeat) && !_stored) {
+        storeScore("Pacman", _name, _score);
+        _stored = true;
+    }
     lib->drawText(&score);
     lib->drawText(&name);
 }
@@ -133,10 +148,8 @@ void Arcade::Pacman::getEvent(Arcade::CommandType cmd, IGraphic *lib)
         _nextDir = PacmanGame::dir::UP;
     else if (cmd == CommandType::DOWN)
         _nextDir = PacmanGame::dir::DOWN;
-    else if (cmd == CommandType::R) {
-        _score = 0;
+    else if (cmd == CommandType::R)
         remake();
-    }
 
     if ((_nextDir == PacmanGame::LEFT) && _map[_pacman.getPosY() / 2 ][_pacman.getPosX() / 2 - 1 ] != '1')
         _pacman.setDir(_nextDir);
@@ -150,10 +163,19 @@ void Arcade::Pacman::getEvent(Arcade::CommandType cmd, IGraphic *lib)
         _pacman.setDir(_nextDir);
 }
 
+void Arcade::Pacman::ghostAffraid()
+{
+    for (auto i = _ghosts.begin(); i != _ghosts.end(); i++) {
+        (*i).setIsAffraid(true);
+        (*i).setColor(Arcade::Color::GREEN);
+    }
+}
+
 void Arcade::Pacman::update(double timeElapsed)
 {
     _time += timeElapsed;
-    _timeWin += timeElapsed;
+    if (_isAffrayed)
+        _timeAffraid += timeElapsed;
     if (_time >= double(1 / 5.0f) && !_win && !_defeat) {
         switch (_pacman.getDir())
         {
@@ -161,6 +183,11 @@ void Arcade::Pacman::update(double timeElapsed)
                 if (_map[_pacman.getPosY() / 2 ][_pacman.getPosX() / 2 - 1] != '1') {
                     if (_map[_pacman.getPosY() / 2 ][_pacman.getPosX() / 2] == '0')
                         _score += 1;
+                    if (_map[_pacman.getPosY() / 2 ][_pacman.getPosX() / 2] == '2') {
+                        _score += 50;
+                        _isAffrayed = true;
+                        ghostAffraid();
+                    }
                     _map[_pacman.getPosY() / 2 ][_pacman.getPosX() / 2] = ' ';
                     _pacman.setPosX(_pacman.getPosX() - 2);
                 }
@@ -169,6 +196,11 @@ void Arcade::Pacman::update(double timeElapsed)
                 if (_map[_pacman.getPosY() / 2 ][_pacman.getPosX() / 2 + 1 ] != '1') {
                     if (_map[_pacman.getPosY() / 2 ][_pacman.getPosX() / 2] == '0')
                         _score += 1;
+                    if (_map[_pacman.getPosY() / 2 ][_pacman.getPosX() / 2] == '2') {
+                        _score += 50;
+                        _isAffrayed = true;
+                        ghostAffraid();
+                    }
                     _map[_pacman.getPosY() / 2 ][_pacman.getPosX() / 2 ] = ' ';
                     _pacman.setPosX(_pacman.getPosX() + 2);
                 }
@@ -177,14 +209,24 @@ void Arcade::Pacman::update(double timeElapsed)
                 if (_map[_pacman.getPosY() / 2 + 1][_pacman.getPosX() / 2 ] != '1') {
                     if (_map[_pacman.getPosY() / 2][_pacman.getPosX() / 2] == '0')
                         _score += 1;
+                    if (_map[_pacman.getPosY() / 2 ][_pacman.getPosX() / 2] == '2') {
+                        _score += 50;
+                        _isAffrayed = true;
+                        ghostAffraid();
+                    }
                     _map[_pacman.getPosY() / 2 ][_pacman.getPosX() / 2 ] = ' ';
                     _pacman.setPosY(_pacman.getPosY() + 2);
                 }
                 break;
             case PacmanGame::dir::UP:
                 if (_map[_pacman.getPosY() / 2 - 1 ][_pacman.getPosX() / 2 ] != '1') {
-                    if (_map[_pacman.getPosY() / 2 ][_pacman.getPosX() / 2] == '0')
+                    if (_map[_pacman.getPosY() / 2 ][_pacman.getPosX() / 2] == '0' || _map[_pacman.getPosY() / 2][_pacman.getPosX() / 2] == '2')
                         _score += 1;
+                    if (_map[_pacman.getPosY() / 2 ][_pacman.getPosX() / 2] == '2') {
+                        _score += 50;
+                        _isAffrayed = true;
+                        ghostAffraid();
+                    }
                     _map[_pacman.getPosY() / 2 ][_pacman.getPosX() / 2 ] = ' ';
                     _pacman.setPosY(_pacman.getPosY() - 2);
                 }
@@ -198,9 +240,19 @@ void Arcade::Pacman::update(double timeElapsed)
         _time = 0;
         if (_win) {
             nextLevel();
-            while (_timeWin <= 3.0f);
-            _timeWin = 0;
+            _win = false;
         }
+    }
+    if (_timeAffraid >= 20.0f && _isAffrayed) {
+        int j = 0;
+        _isAffrayed = false;
+        std::vector<Color> colors = {Color::GREEN, Color::CYAN, Color::RED, Color::WHITE};
+        for (auto i = _ghosts.begin(); i != _ghosts.end(); i++) {
+            (*i).setIsAffraid(false);
+            (*i).setColor(colors[j]);
+            j++;
+        }
+        _timeAffraid = 0;
     }
 }
 
@@ -227,7 +279,7 @@ void Arcade::Pacman::check_win()
 
     for (auto i = _map.begin(); i != _map.end(); i++) {
         for (auto j = 0; (*i)[j]; ++j) {
-            if ((*i)[j] == '0')
+            if ((*i)[j] == '0' || (*i)[j] == '2')
                 count++;
         }
     }
@@ -238,8 +290,12 @@ void Arcade::Pacman::check_win()
 void Arcade::Pacman::checkContactGhost()
 {
     for (auto i = _ghosts.begin(); i != _ghosts.end(); i++) {
-        if ((*i).getPosX() == _pacman.getPosX() && (*i).getPosY() == _pacman.getPosY()) {
+        if ((*i).getPosX() == _pacman.getPosX() && (*i).getPosY() == _pacman.getPosY() && !_isAffrayed) {
             _defeat = true;
+        } else if ((*i).getPosX() == _pacman.getPosX() && (*i).getPosY() == _pacman.getPosY() && _isAffrayed) {
+            (*i).setPosX(38);
+            (*i).setPosY(28);
+            _score += 100;
         }
     }
 }
@@ -259,6 +315,7 @@ void Arcade::Pacman::remake()
     _level = 0;
     _defeat = false;
     _win = false;
+    _stored = true;
 }
 
 void Arcade::Pacman::nextLevel()
@@ -267,10 +324,9 @@ void Arcade::Pacman::nextLevel()
     _pacman.setPosX(40);
     _pacman.setPosY(64);
     for (auto i = _ghosts.begin(); i != _ghosts.end(); i++) {
-        if ((*i).getPosX() == _pacman.getPosX() && (*i).getPosY() == _pacman.getPosY()) {
-            (*i).setPosX(38);
-            (*i).setPosY(28);
-        }
+        (*i).setPosX(38);
+        (*i).setPosY(28);
     }
+    _win = false;
     _map = getMap("src/Pacman/assets/map.txt");
 }

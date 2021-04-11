@@ -26,6 +26,7 @@ namespace Arcade {
             void initPlayerName(std::string playerName) override;
             void nextLevel();
 
+            void ghostAffraid();
             void checkContactGhost();
             void check_win();
             void moveGhost(double timeElapsed);
@@ -47,7 +48,9 @@ namespace Arcade {
             bool _defeat;
             int _offset;
             int _level;
-            double _timeWin;
+            bool _stored;
+            double _timeAffraid;
+            bool _isAffrayed;
     };
 }
 
