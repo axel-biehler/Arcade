@@ -25,11 +25,12 @@ namespace Arcade {
             void update(double timeElapsed) override;
             void initPlayerName(std::string playerName) override;
 
+            void checkContactGhost();
+            void check_win();
             void moveGhost(double timeElapsed);
             std::vector<std::string> getMap(const std::string &path);
             void createGhost();
             void drawGhost(Arcade::IGraphic *lib);
-            void check_win();
             void remake();
 
         private:
@@ -41,6 +42,9 @@ namespace Arcade {
             double _time;
             PacmanGame::dir _nextDir;
             PacmanGame::dir _dir;
+            bool _win;
+            bool _defeat;
+            int _offset;
     };
 }
 
