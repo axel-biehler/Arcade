@@ -13,8 +13,8 @@ graphicals:
 	make -C src/libNcurses
 
 games:
+	cd src/Pacman && make
 	cd src/Snake && make
-	#cd src/Pacman && make
 
 core:
 	make -C src/Core

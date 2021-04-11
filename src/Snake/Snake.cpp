@@ -102,6 +102,7 @@ void Arcade::Snake::draw(IGraphic *lib)
 
 void Arcade::Snake::getEvent(CommandType cmd, IGraphic *lib)
 {
+    (void)lib;
     if (cmd == CommandType::RIGHT && _dir != Dir::DIR_LEFT)
         _nextDir = Dir::DIR_RIGHT;
     else if (cmd == CommandType::LEFT && _dir != Dir::DIR_RIGHT)

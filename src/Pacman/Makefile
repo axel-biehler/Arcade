@@ -5,7 +5,11 @@
 ## Makefile
 ##
 
-SRC		=
+SRC		=	src/Pacman.cpp				\
+			src/Character.cpp			\
+			src/Ghost.cpp				\
+			../utils/Text/Text.cpp		\
+			../utils/Pixel/Pixel.cpp	\
 
 OBJ		=	$(SRC:.cpp=.o)
 
@@ -13,17 +17,18 @@ NAME	=	arcade_pacman.so
 
 all:	$(NAME)
 
-CFLAGS	=		-c -fpic #-Wall -Werror -Wextra
+CFLAGS	=		-c -Wall -Wextra -fPIC
 
 LFLAGS  =		-shared
 
 $(NAME):	$(OBJ)
 	g++ $(CFLAGS) $(SRC)
-	g++ -o $(NAME) $(LFLAGS) $(OBJ)
+	g++ -o $(NAME) $(LFLAGS) *.o
 	mv $(NAME) ../../lib
 
 clean:
 	rm -f $(OBJ)
+	rm *.o
 
 fclean:	clean
 	rm -f ../../lib/$(NAME)

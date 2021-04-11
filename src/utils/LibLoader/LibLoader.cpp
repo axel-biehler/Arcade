@@ -32,6 +32,10 @@ std::vector<std::pair<std::string, std::string>> Arcade::LibLoader::getLibAvaila
 
     for (auto& p: std::experimental::filesystem::directory_iterator("./lib")) {
         void *sharedLib = dlopen(p.path().c_str(), RTLD_NOW);
+        char *errstr;
+        errstr = dlerror();
+        if (errstr != NULL)
+            printf ("A dynamic linking error occurred: (%s)\n", errstr);
         if (sharedLib) {
             getLibType = reinterpret_cast<LibType (*)()>(dlsym(sharedLib, "getLibType"));
             if (getLibType() == type && p.path().string().find(".so", 0) != std::string::npos) {
