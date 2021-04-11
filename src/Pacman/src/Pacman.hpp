@@ -24,6 +24,8 @@ namespace Arcade {
             void getEvent(CommandType cmd, IGraphic *lib) override;
             void update(double timeElapsed) override;
             void initPlayerName(std::string playerName) override;
+
+            void moveGhost(double timeElapsed);
             std::vector<std::string> getMap(const std::string &path);
             void createGhost();
             void drawGhost(Arcade::IGraphic *lib);

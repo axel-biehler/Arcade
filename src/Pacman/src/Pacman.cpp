@@ -7,6 +7,7 @@
 
 #include <fstream>
 #include <iostream>
+#include <unistd.h>
 #include "Pacman.hpp"
 #include "../../../includes/IGraphic.hpp"
 
@@ -53,6 +54,13 @@ void Arcade::Pacman::drawGhost(Arcade::IGraphic *lib)
     for (auto i = _ghosts.begin(); i != _ghosts.end(); i++) {
         Pixel pix = {(*i).getPosX(), (*i).getPosY(), (*i).getColor(), 2};
         lib->drawPixel(&pix);
+    }
+}
+
+void Arcade::Pacman::moveGhost(double timeElapsed)
+{
+    for (auto i = _ghosts.begin(); i != _ghosts.end(); i++) {
+        (*i).move(_map, timeElapsed);
     }
 }
 
@@ -154,8 +162,8 @@ void Arcade::Pacman::update(double timeElapsed)
             case PacmanGame::NONE:
                 break;
         }
+        moveGhost(timeElapsed);
         _time = 0;
-        std::cout << _pacman.getPosX() << " " << _pacman.getPosY() << " " << _pacman.getDir() << " " << _nextDir <<std::endl;
     }
 }
 

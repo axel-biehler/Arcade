@@ -9,12 +9,18 @@
 #define GHOST_HPP_
 
 #include "../../../includes/PersonnalType.hpp"
+#include <string>
+#include "Character.hpp"
+
 
 namespace PacmanGame {
     class Ghost {
         public:
             Ghost(Arcade::Color color);
             ~Ghost();
+
+            void move(std::vector<std::string> map, double timeElapsed);
+            PacmanGame::dir changeDir(std::vector<std::string> map);
 
             void setColor(Arcade::Color color);
             Arcade::Color getColor() const;
@@ -29,6 +35,8 @@ namespace PacmanGame {
             int _pos[2];
             Arcade::Color _color;
             bool _isAffraid;
+            PacmanGame::dir _dir;
+            double _time;
     };
 }
 
