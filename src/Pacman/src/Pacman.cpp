@@ -33,6 +33,8 @@ Arcade::Pacman::Pacman()
     _defeat = false;
     _win = false;
     _offset = 10;
+    _score = 0;
+    _level = 1;
 }
 
 Arcade::Pacman::~Pacman()
@@ -74,10 +76,14 @@ void Arcade::Pacman::draw(IGraphic *lib)
     Pixel orb = {0, 0, Color::WHITE, 1};
     Pixel maxOrb = {0, 0, Color::YELLOW, 1};
     Pixel player = {_pacman.getPosX() + _offset, _pacman.getPosY() + _offset, Arcade::YELLOW, 2};
-    Text win = {50, 50, "You win", Arcade::WHITE, 6};
+    Pixel back = {50, 50, Arcade::BLACK, 100};
+    Text win = {50, 50, "Level " + std::to_string(_level), Arcade::WHITE, 6};
     Text lose = {50, 50, "You lose", Arcade::WHITE, 6};
+    Text score = {10, 5, "Score: " + std::to_string(_score)};
+    Text name = {50, 5, _name};
     int pos[2] = {_offset, _offset};
 
+    lib->drawPixel(&back);
     for (auto i = _map.begin(); i != _map.end(); i++) {
         for (auto j = 0; (*i)[j]; ++j) {
             wall.setXPos(pos[0]);
@@ -112,6 +118,8 @@ void Arcade::Pacman::draw(IGraphic *lib)
     }
     if (_defeat)
         lib->drawText(&lose);
+    lib->drawText(&score);
+    lib->drawText(&name);
 }
 
 void Arcade::Pacman::getEvent(Arcade::CommandType cmd, IGraphic *lib)
@@ -125,8 +133,10 @@ void Arcade::Pacman::getEvent(Arcade::CommandType cmd, IGraphic *lib)
         _nextDir = PacmanGame::dir::UP;
     else if (cmd == CommandType::DOWN)
         _nextDir = PacmanGame::dir::DOWN;
-    else if (cmd == CommandType::R)
+    else if (cmd == CommandType::R) {
+        _score = 0;
         remake();
+    }
 
     if ((_nextDir == PacmanGame::LEFT) && _map[_pacman.getPosY() / 2 ][_pacman.getPosX() / 2 - 1 ] != '1')
         _pacman.setDir(_nextDir);
@@ -148,24 +158,32 @@ void Arcade::Pacman::update(double timeElapsed)
         {
             case PacmanGame::dir::LEFT:
                 if (_map[_pacman.getPosY() / 2 ][_pacman.getPosX() / 2 - 1] != '1') {
+                    if (_map[_pacman.getPosY() / 2 ][_pacman.getPosX() / 2] == '0')
+                        _score += 1;
                     _map[_pacman.getPosY() / 2 ][_pacman.getPosX() / 2] = ' ';
                     _pacman.setPosX(_pacman.getPosX() - 2);
                 }
                 break;
             case PacmanGame::dir::RIGHT:
                 if (_map[_pacman.getPosY() / 2 ][_pacman.getPosX() / 2 + 1 ] != '1') {
+                    if (_map[_pacman.getPosY() / 2 ][_pacman.getPosX() / 2] == '0')
+                        _score += 1;
                     _map[_pacman.getPosY() / 2 ][_pacman.getPosX() / 2 ] = ' ';
                     _pacman.setPosX(_pacman.getPosX() + 2);
                 }
                 break;
             case PacmanGame::dir::DOWN:
-                if (_map[_pacman.getPosY() / 2 + 1 ][_pacman.getPosX() / 2 ] != '1') {
+                if (_map[_pacman.getPosY() / 2 + 1][_pacman.getPosX() / 2 ] != '1') {
+                    if (_map[_pacman.getPosY() / 2][_pacman.getPosX() / 2] == '0')
+                        _score += 1;
                     _map[_pacman.getPosY() / 2 ][_pacman.getPosX() / 2 ] = ' ';
                     _pacman.setPosY(_pacman.getPosY() + 2);
                 }
                 break;
             case PacmanGame::dir::UP:
                 if (_map[_pacman.getPosY() / 2 - 1 ][_pacman.getPosX() / 2 ] != '1') {
+                    if (_map[_pacman.getPosY() / 2 ][_pacman.getPosX() / 2] == '0')
+                        _score += 1;
                     _map[_pacman.getPosY() / 2 ][_pacman.getPosX() / 2 ] = ' ';
                     _pacman.setPosY(_pacman.getPosY() - 2);
                 }
@@ -177,6 +195,8 @@ void Arcade::Pacman::update(double timeElapsed)
         checkContactGhost();
         check_win();
         _time = 0;
+        if (_win)
+            nextLevel();
     }
 }
 
@@ -231,4 +251,22 @@ void Arcade::Pacman::remake()
     _time = 0.0f;
     _nextDir = PacmanGame::NONE;
     srand(time(nullptr));
+    _score = 0;
+    _level = 0;
+    _defeat = false;
+    _win = false;
+}
+
+void Arcade::Pacman::nextLevel()
+{
+    _level += 1;
+    _pacman.setPosX(40);
+    _pacman.setPosY(64);
+    for (auto i = _ghosts.begin(); i != _ghosts.end(); i++) {
+        if ((*i).getPosX() == _pacman.getPosX() && (*i).getPosY() == _pacman.getPosY()) {
+            (*i).setPosX(38);
+            (*i).setPosY(28);
+        }
+    }
+    _map = getMap("src/Pacman/assets/map.txt");
 }

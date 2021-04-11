@@ -40,7 +40,7 @@ static std::string menuLoop(Arcade::Core &core, Arcade::LibLoader loader, Arcade
         current_time = (double)(end_t - start_t) / CLOCKS_PER_SEC;
         dt += current_time;
     }
-    if (choices < 2 || event == Arcade::ESC)
+    if (choices < 2 || event == Arcade::ESC || event == Arcade::CLOSE_WINDOW)
         return "";
     std::string name = core.playerNameLoop(loader, menu);
     delete core.getGraphicLib();

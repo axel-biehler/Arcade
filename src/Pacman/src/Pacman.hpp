@@ -24,6 +24,7 @@ namespace Arcade {
             void getEvent(CommandType cmd, IGraphic *lib) override;
             void update(double timeElapsed) override;
             void initPlayerName(std::string playerName) override;
+            void nextLevel();
 
             void checkContactGhost();
             void check_win();
@@ -45,6 +46,8 @@ namespace Arcade {
             bool _win;
             bool _defeat;
             int _offset;
+            int _level;
+            double _timeWin;
     };
 }
 

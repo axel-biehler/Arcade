@@ -86,7 +86,7 @@ Arcade::IGame *Arcade::LibLoader::loadNextGame(bool direction)
     std::vector<std::pair<std::string, std::string>> libs = getLibAvailable(Arcade::GAME);
     std::string name = _loadedGameName;
     auto it = std::find_if(libs.begin(), libs.end(),
-                           [&name](const std::pair<std::string, std::string>& element){ return element.second == name; });
+                           [&name](const std::pair<std::string, std::string>& element){ return element.second.find(name) != std::string::npos; });
 
     if (libs.empty() || it == libs.end()) {
         std::cout << "Failed to swap lib" << "it = " << it->first << std::endl;

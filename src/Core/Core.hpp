@@ -40,6 +40,7 @@ namespace Arcade {
         IGraphic *_graphicLib;
         IGame *_gameLib;
         std::string _gameName;
+        std::string _playerName;
         std::map<CommandType, int> Core_KEY {
             {A, 'a'},
             {B, 'b'},

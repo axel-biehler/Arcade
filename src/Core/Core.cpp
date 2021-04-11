@@ -69,9 +69,11 @@ void Arcade::Core::switchLib(Arcade::LibLoader &loader, Arcade::CommandType even
     } else if (event == Arcade::CommandType::NUM2) {
         delete _gameLib;
         this->setGameLib(loader.loadNextGame(true));
+        getGameLib()->initPlayerName(_playerName);
     } else if (event == Arcade::CommandType::NUM3) {
         delete _gameLib;
         this->setGameLib(loader.loadNextGame(false));
+        getGameLib()->initPlayerName(_playerName);
     }
 }
 
@@ -100,7 +102,7 @@ bool Arcade::Core::runGame(LibLoader &loader, std::string &playerName)
         current_time = (double)(end_t - start_t) / CLOCKS_PER_SEC;
         dt += current_time;
     }
-    if (cmd == Arcade::CommandType::ESC)
+    if (cmd == Arcade::CommandType::ESC || cmd == Arcade::CommandType::CLOSE_WINDOW)
         return false;
     else
         return true;
@@ -135,6 +137,7 @@ std::string Arcade::Core::playerNameLoop(Arcade::LibLoader &loader, Arcade::IMen
         current_time = (double)(end_t - start_t) / CLOCKS_PER_SEC;
         dt += current_time;
     }
+    _playerName = name;
     return name;
 }
 
