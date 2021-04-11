@@ -137,28 +137,26 @@ void Arcade::Pacman::update(double timeElapsed)
                 if (_map[_pacman.getPosY() / 2][_pacman.getPosX() / 2 + 1] != '1') {
                     _map[_pacman.getPosY() / 2][_pacman.getPosX() / 2] = ' ';
                     _pacman.setPosX(_pacman.getPosX() + 2);
-
                 }
                 break;
             case PacmanGame::dir::DOWN:
                 if (_map[_pacman.getPosY() / 2 + 1][_pacman.getPosX() / 2] != '1') {
                     _map[_pacman.getPosY() / 2][_pacman.getPosX() / 2] = ' ';
-                    _pacman.setPosX(_pacman.getPosY() + 2);
-
+                    _pacman.setPosY(_pacman.getPosY() + 2);
                 }
                 break;
             case PacmanGame::dir::UP:
                 if (_map[_pacman.getPosY() / 2 - 1][_pacman.getPosX() / 2] != '1') {
                     _map[_pacman.getPosY() / 2][_pacman.getPosX() / 2] = ' ';
-                    _pacman.setPosX(_pacman.getPosY() - 2);
+                    _pacman.setPosY(_pacman.getPosY() - 2);
                 }
                 break;
             case PacmanGame::NONE:
                 break;
         }
         _time = 0;
+        std::cout << _pacman.getPosX() << " " << _pacman.getPosY() << " " << _pacman.getDir() << " " << _nextDir <<std::endl;
     }
-    std::cout << _pacman.getPosX() << " " << _pacman.getPosY() << " " << _pacman.getDir() << " " << _nextDir <<std::endl;
 }
 
 void Arcade::Pacman::createGhost()

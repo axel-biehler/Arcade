@@ -7,7 +7,9 @@
 
 SRC		=	src/Pacman.cpp				\
 			src/Character.cpp			\
-			src/Ghost.cpp
+			src/Ghost.cpp				\
+			../utils/Text/Text.cpp		\
+			../utils/Pixel/Pixel.cpp	\
 
 OBJ		=	$(SRC:.cpp=.o)
 

@@ -31,6 +31,7 @@ namespace PacmanGame {
             void setPosY(int pos);
             dir getDir() const;
             void setDir(dir direction);
+            void operator=(Character &c);
 
         private:
             int _pos[2];
