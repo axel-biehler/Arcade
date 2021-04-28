@@ -111,7 +111,7 @@ bool Arcade::Core::runGame(LibLoader &loader, std::string &playerName)
 std::string Arcade::Core::playerNameLoop(Arcade::LibLoader &loader, Arcade::IMenu *menu)
 {
     Arcade::CommandType event = Arcade::NO_EVENT;
-    std::string name;;
+    std::string name;
     clock_t start_t;
     clock_t end_t;
     double current_time = 0.0f;
@@ -138,7 +138,7 @@ std::string Arcade::Core::playerNameLoop(Arcade::LibLoader &loader, Arcade::IMen
         dt += current_time;
     }
     _playerName = name;
-    return name;
+    return name  == "" ? "Anonymous" : name;
 }
 
 void Arcade::Core::storeScore(const std::string game, const std::string playerName, int score)
