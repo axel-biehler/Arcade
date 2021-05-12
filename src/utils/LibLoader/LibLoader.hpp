@@ -27,7 +27,17 @@ namespace Arcade {
         {
             void *sharedLib = dlopen(fp.c_str(), RTLD_NOW);
             T *(*getLib)();
+            Arcade::LibType (*getType)();
 
+            if (sharedLib) {
+                getType = reinterpret_cast<Arcade::LibType (*)()>(dlsym(sharedLib, "getLibType"));
+                if (getType() != type) {
+                    fprintf(stderr, "Loaded library has wrong type, don't swap games and graphics.\n");
+                    exit(84);
+                }
+            } else {
+                return nullptr;
+            }
             if (type == MENU) {
                 if (_loadedMenu)
                     dlclose(_loadedMenu);
